@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ZwFilterRefreshView">
+        <attr name="barTxtSize" format="dimension"></attr>
+        <attr name="barHeight" format="dimension"></attr>
+        <attr name="barTxtColor" format="color"></attr>
+        <attr name="barTxtColorActive" format="color"></attr>
+        <attr name="barImgCom" format="reference"></attr>
+        <attr name="barImgComActive" format="reference"></attr>
+        <attr name="barImgSortDefault" format="reference"></attr>
+        <attr name="barImgSortAsc" format="reference"></attr>
+        <attr name="barImgSortDesc" format="reference"></attr>
+        <attr name="barImgFilter" format="reference"></attr>
+        <attr name="barSortText" format="string"></attr>
+        <attr name="barFilterText" format="string"></attr>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <!-- 头部 -->
+    <LinearLayout
+        android:id="@+id/ll_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|right"
+        >
+        <!-- 按钮 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <com.project.view.CustomSpinner
+                android:id="@+id/customSpinner"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+            </com.project.view.CustomSpinner>
+            <LinearLayout
+                android:id="@+id/ll_sort_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <View
+                    android:background="@color/gap_line"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"></View>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_bar_sort"
+                        android:text="排序"
+                        android:textColor="@color/gray_8"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/img_sort"
+                        android:src="@mipmap/ic_sort"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- 筛选 -->
+        <LinearLayout
+            android:id="@+id/ll_filter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <View
+                android:background="@color/gap_line"
+                android:layout_width="1px"
+                android:layout_height="match_parent"></View>
+            <TextView
+                android:id="@+id/tv_bar_filter"
+                android:text="筛选"
+                android:layout_marginLeft="18dp"
+                android:textColor="@color/gray_8"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/img_filter"
+                android:layout_marginRight="18dp"
+                android:src="@mipmap/ic_filter"
+                android:layout_width="13dp"
+                android:layout_height="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gap_line"></View>
+    <!-- 列表 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.jwenfeng.library.pulltorefresh.PullToRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- 内容控件 有且只能有一个 -->
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            </ScrollView>
+
+        </com.jwenfeng.library.pulltorefresh.PullToRefreshLayout>
+    </LinearLayout>
+</LinearLayout>

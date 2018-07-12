@@ -1,0 +1,137 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff">
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!-- 存放单选或多选的checktext 不能放其他东西 -->
+                <LinearLayout
+                    android:id="@+id/ll_filter_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+                <!-- 时间区间 -->
+                <LinearLayout
+                    android:id="@+id/ll_time_content"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:text="时间区间"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_time_start"
+                            android:layout_width="120dp"
+                            android:minHeight="35dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="13sp"
+                            android:textColor="@color/gray_8"
+                            android:hint="开始时间"
+                            android:background="@drawable/radius_gray_full"/>
+                        <TextView
+                            android:text="—"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
+                        <TextView
+                            android:id="@+id/tv_time_end"
+                            android:layout_width="120dp"
+                            android:minHeight="35dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="13sp"
+                            android:textColor="@color/gray_8"
+                            android:hint="结束时间"
+                            android:background="@drawable/radius_gray_full"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- 搜索栏 -->
+                <LinearLayout
+                    android:id="@+id/ll_search"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:text="搜索"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/et_search"
+                            android:layout_width="match_parent"
+                            android:minHeight="35dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="13sp"
+                            android:textColor="@color/gray_8"
+                            android:hint="输入关键字"
+                            android:background="@drawable/radius_gray_full"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- 自定义区域 -->
+                <LinearLayout
+                    android:id="@+id/ll_custom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="280dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="重置"
+                android:gravity="center"
+                android:id="@+id/tv_reset"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/radius_gray_full_left"/>
+            <TextView
+                android:text="确定"
+                android:gravity="center"
+                android:id="@+id/tv_confirm"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/radius_gray_full_right"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
