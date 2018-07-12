@@ -1,7 +1,6 @@
 package com.project.view;
 
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.library.R;
@@ -120,25 +119,24 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.tv_confirm:
-                if( onConfirmClickListener != null )
-                    onConfirmClickListener.onConfirmClick(mData);
-                break;
-            case R.id.tv_reset:
-                resetAllItems();
-                if( onResetClickListener != null )
-                    onResetClickListener.onResetClick(mData);
-                break;
-            case R.id.tv_time_start:
-                CurTimePicker = (TextView) v;
-                mTimeDialog.show(fragmentManager,"hour_minute");
-                break;
-            case R.id.tv_time_end:
-                CurTimePicker = (TextView) v;
-                mTimeDialog.show(fragmentManager,"hour_minute");
-                break;
+        int i = v.getId();
+        if (i == R.id.tv_confirm) {
+            if (onConfirmClickListener != null)
+                onConfirmClickListener.onConfirmClick(mData);
+
+        } else if (i == R.id.tv_reset) {
+            resetAllItems();
+            if (onResetClickListener != null)
+                onResetClickListener.onResetClick(mData);
+
+        } else if (i == R.id.tv_time_start) {
+            CurTimePicker = (TextView) v;
+            mTimeDialog.show(fragmentManager, "hour_minute");
+
+        } else if (i == R.id.tv_time_end) {
+            CurTimePicker = (TextView) v;
+            mTimeDialog.show(fragmentManager, "hour_minute");
+
         }
     }
 
@@ -200,14 +198,13 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
         @Override
         public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
             String text = getDateToString(millseconds);
-            switch (CurTimePicker.getId())
-            {
-                case R.id.tv_time_start:
-                    mData.setTimeStart(millseconds);
-                    break;
-                case R.id.tv_time_end:
-                    mData.setTimeEnd(millseconds);
-                    break;
+            int i = CurTimePicker.getId();
+            if (i == R.id.tv_time_start) {
+                mData.setTimeStart(millseconds);
+
+            } else if (i == R.id.tv_time_end) {
+                mData.setTimeEnd(millseconds);
+
             }
             CurTimePicker.setText(text);
             onItemChangeListener.onItemChangeListener(mData);

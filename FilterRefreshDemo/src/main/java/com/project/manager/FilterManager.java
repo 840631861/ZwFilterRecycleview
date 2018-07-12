@@ -44,13 +44,12 @@ public class FilterManager implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.ll_filter_btn:
-                if( filtersDialog == null )
-                    filtersDialog = new FiltersDialog(context);
-                filtersDialog.show();
-                break;
+        int i = v.getId();
+        if (i == R.id.ll_filter_btn) {
+            if (filtersDialog == null)
+                filtersDialog = new FiltersDialog(context);
+            filtersDialog.show();
+
         }
     }
 
