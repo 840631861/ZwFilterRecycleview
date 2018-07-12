@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.project.R;
+
+import com.library.R;
 
 import java.util.List;
 import java.util.Map;
