@@ -50,6 +50,7 @@ public class ViewBarManager
 
     //状态值
     private int sortStatus = SORT_STATUS_DEFAULT;//排序状态
+
     public static int SORT_STATUS_DEFAULT = 0;
     public static int SORT_STATUS_ASC = 1;
     public static int SORT_STATUS_DESC = -1;
@@ -173,7 +174,7 @@ public class ViewBarManager
         }
     }
 
-    //设置培训状态
+    //设置排序状态
     public int getSortStatus() {
         return sortStatus;
     }

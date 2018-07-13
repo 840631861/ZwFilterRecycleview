@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ZwFilterRefreshView">
+        <!-- 标题栏字体大小 -->
         <attr name="barTxtSize" format="dimension"></attr>
+        <!-- 标题栏高度 -->
         <attr name="barHeight" format="dimension"></attr>
+        <!-- 标题栏颜色 -->
         <attr name="barTxtColor" format="color"></attr>
+        <!-- 标题栏选中颜色 -->
         <attr name="barTxtColorActive" format="color"></attr>
+        <!-- 下拉菜单图片 -->
         <attr name="barImgCom" format="reference"></attr>
+        <!-- 下拉菜单下拉时的图片 -->
         <attr name="barImgComActive" format="reference"></attr>
+        <!-- 排序按钮图标 -->
         <attr name="barImgSortDefault" format="reference"></attr>
         <attr name="barImgSortAsc" format="reference"></attr>
         <attr name="barImgSortDesc" format="reference"></attr>
+        <!-- 筛选按钮图标 -->
         <attr name="barImgFilter" format="reference"></attr>
+        <!-- 排序按钮文字 -->
         <attr name="barSortText" format="string"></attr>
+        <!-- 筛选按钮文字 -->
         <attr name="barFilterText" format="string"></attr>
     </declare-styleable>
 </resources>

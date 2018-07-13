@@ -214,7 +214,7 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
         }
     };
 
-    public String getDateToString(long time)
+    private String getDateToString(long time)
     {
         String pattern = "";
         switch (TimeType)

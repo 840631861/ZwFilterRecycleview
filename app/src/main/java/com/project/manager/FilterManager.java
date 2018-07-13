@@ -1,10 +1,13 @@
 package com.project.manager;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.LinearLayout;
 
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
 import com.project.R;
 import com.project.model.FilterCheckData;
 import com.project.model.FilterData;
@@ -26,6 +29,7 @@ public class FilterManager implements View.OnClickListener {
     private IListView.OnFilterConfirmClickListener onFilterConfirmClickListener;//确认按钮点击事件
     private IListView.OnFilterItemChangeListener onFilterItemChangeListener;//item状态改变事件
     private IListView.OnFilterResetClickListener onFilterResetClickListener;//重置监听
+    private IListView.OnAddCustemViewCallback onAddCustemViewCallback;//添加自定义布局回调
     public static int FILTER_TYPE_SIN_ELECTION = 1;//单选
     public static int FILTER_TYPE_MUL_ELECTION = 2;//多选
 
@@ -79,12 +83,7 @@ public class FilterManager implements View.OnClickListener {
         return filtersDialog.getAllData();
     }
 
-    public FiltersDialog getFiltersDialog()
-    {
-        return filtersDialog;
-    }
-
-    public void initEvent()
+    private void initEvent()
     {
         if( filtersDialog == null )
             filtersDialog = new FiltersDialog(context);
@@ -130,6 +129,40 @@ public class FilterManager implements View.OnClickListener {
     public FilterManager setOnFilterResetClickListener(IListView.OnFilterResetClickListener onFilterResetClickListener)
     {
         this.onFilterResetClickListener = onFilterResetClickListener;
+        return this;
+    }
+
+    //添加时间段条件
+    public FilterManager addTimeSection(FragmentManager fragmentManager, Type type)
+    {
+        filtersDialog.addTimeSection(fragmentManager,type);
+        return this;
+    }
+
+    //添加时间段条件
+    public FilterManager addTimeSection(FragmentManager fragmentManager, Type type,int themeColor)
+    {
+        filtersDialog.setTimeDialogTheme(themeColor);
+        filtersDialog.addTimeSection(fragmentManager,type);
+        return this;
+    }
+
+    //添加搜索框
+    public FilterManager addSearchTxt()
+    {
+        filtersDialog.addSearchTxt();
+        return this;
+    }
+
+    //添加自定义布局
+    public FilterManager addCustomView(View view,final IListView.OnAddCustemViewCallback onAddCustemViewCallback)
+    {
+        filtersDialog.addCustomView(view, new FiltersDialog.OnAddCustemViewCallback() {
+            @Override
+            public void onCallback(View parent, View custom) {
+                onAddCustemViewCallback.onAddCustemView(parent,custom);
+            }
+        });
         return this;
     }
 }

@@ -45,12 +45,20 @@ public class MainActivity extends AppCompatActivity
     {
         List<FilterCheckData> checkDatas = getFilterCheckData();
 
+        //设置侧拉栏数据
         view.getFilterManager()
-                //.addCheckData(data).addCheckData(data2)//添加侧拉栏中数据
-                .addCheckDatas(checkDatas)
+                //.addCheckData(data)//添加单个侧拉栏中数据（选择按钮）
+                .addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
+                .setOnFilterItemChangeListener(new IListView.OnFilterItemChangeListener() {
+                    @Override
+                    public void onFilterItemChange(FilterData data) {
+                        //点击或改变筛选中的item数值后的回调
+                    }
+                })
                 .setOnFilterConfirmClickListener(new IListView.OnFilterConfirmClickListener() {
                     @Override
                     public void onFilterConfirmClick(FilterData data) {
+                        //点击确认按钮的监听
                         Toast.makeText(context,"点击了确认",Toast.LENGTH_SHORT).show();
                         List<FilterCheckData> list = data.getCheckDatas();
                     }
@@ -58,16 +66,25 @@ public class MainActivity extends AppCompatActivity
                 .setOnFilterResetClickListener(new IListView.OnFilterResetClickListener() {
                     @Override
                     public void onFilterResetClick(FilterData data) {
+                        //点击重置按钮的监听
                         Toast.makeText(context,"点击了重置",Toast.LENGTH_SHORT).show();
                         List<FilterCheckData> list = data.getCheckDatas();
                     }
                 });
 
+        View custom = LayoutInflater.from(context).inflate(R.layout.layout_custom,null);
         //设置侧拉栏样式
-        view.getFilterManager().getFiltersDialog()
-                .setTimeDialogTheme(R.color.colorAccent)//设置时间选择器颜色
-                .addTimeSection(getSupportFragmentManager(), Type.YEAR_MONTH)//添加时间段
-                .addSearchTxt();//添加搜索框
+        view.getFilterManager()
+                //.addTimeSection(getSupportFragmentManager(), Type.YEAR_MONTH)//添加时间段（不带样式使用默认）
+                .addTimeSection(getSupportFragmentManager(), Type.YEAR_MONTH,R.color.colorAccent)//添加时间段（带样式）
+                .addSearchTxt()//添加搜索框
+                .addCustomView(custom, new IListView.OnAddCustemViewCallback() //添加自定义布局
+                {
+                    @Override
+                    public void onAddCustemView(View parent, View custom) {
+                        //自定义布局回调
+                    }
+                });
 
         final List<String> spinnerData = new ArrayList<>();
         spinnerData.add("综合");spinnerData.add("时间正序");spinnerData.add("时间倒序");spinnerData.add("热门搜索");

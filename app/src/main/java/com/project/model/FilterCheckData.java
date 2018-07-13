@@ -10,10 +10,10 @@ import java.util.List;
 public class FilterCheckData
 {
     public static String sortName = "sort";
-    int type;
+    int type;//单选、多选  FilterManager.FILTER_TYPE_SIN_ELECTION，FilterManager.FILTER_TYPE_MUL_ELECTION
     String title;
     String id;
-    int sort;
+    int sort;//排序状态，ViewBarManager.SORT_STATUS_DEFAULT，ViewBarManager.SORT_STATUS_ASC，ViewBarManager.SORT_STATUS_DESC 默认 正序 倒序
     List<FilterCheckDataItem> list;
 
     public String getId() {

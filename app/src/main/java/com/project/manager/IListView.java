@@ -35,4 +35,8 @@ public interface IListView
     interface OnFilterItemChangeListener{
         void onFilterItemChange(FilterData data);
     }
+    //添加自定义布局回调
+    interface OnAddCustemViewCallback{
+        void onAddCustemView(View parent,View custom);
+    }
 }
