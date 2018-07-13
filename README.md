@@ -1,4 +1,8 @@
 ### ZwFilterRecycleview
+[ZwFilterRecycleview](https://github.com/840631861/ZwFilterRecycleview)是一款开源的Android RecycleView控件。
+
+继承了各种条件筛选、排序、上拉加载下拉刷新等，样式颜色、图片、字体都可自定义
+
 ### 使用
 **Step1：添加依赖**
 
