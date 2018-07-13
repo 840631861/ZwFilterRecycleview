@@ -39,7 +39,7 @@ Maven
 
 **Step2：添加布局**
 
-更过自定义属性[参见](顶部栏样式设置)<BR />
+更过自定义属性[参见](#顶部栏样式设置)<BR />
 ```xml
 <com.project.view.ZwFilterRefreshView
     android:id="@+id/view"                                  
@@ -99,7 +99,7 @@ view.getFilterManager()
 ```
 
 ***更改顶部栏中排序、筛选等按钮的样式，及设置下拉菜单的数据***
-更多设置[参见](顶部栏样式设置)<br /> 
+更多设置[参见](#顶部栏样式设置)<br /> 
 ```java
 //设置顶部栏样式
 view.getViewBarManager()
