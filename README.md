@@ -3,6 +3,8 @@
 
 继承了各种条件筛选、排序、上拉加载下拉刷新等，样式颜色、图片、字体都可自定义
 
+![image](https://github.com/840631861/ZwFilterRecycleview/blob/master/app/src/main/resource/%E7%A4%BA%E4%BE%8B1.gif)
+
 ### 使用
 **Step1：添加依赖**
 
