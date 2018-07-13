@@ -39,7 +39,7 @@ Maven
 
 **Step2：添加布局**
 
-更过自定义属性[参见](#顶部栏样式设置)<BR />
+更过自定义属性[参见](#自定义属性说明)<BR />
 ```xml
 <com.project.view.ZwFilterRefreshView
     android:id="@+id/view"                                  
