@@ -6,7 +6,11 @@ group='com.github.zzw'
 android {
     compileSdkVersion 27
 
-
+    build{
+        repositories{
+            maven { url 'https://jitpack.io' }
+        }
+    }
 
     defaultConfig {
         minSdkVersion 19
@@ -15,7 +19,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
