@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 
 import com.library.R;
 
-
 public class CheckText extends android.support.v7.widget.AppCompatTextView{
 
     private boolean isChecked=false;

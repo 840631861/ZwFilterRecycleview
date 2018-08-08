@@ -8,7 +8,7 @@ public class FilterCheckDataItem
 {
     String showName;
     String id;
-    Boolean isChecked;
+    Boolean isChecked;//是否选中
     Object params;//自定义参数
 
     public String getShowName() {

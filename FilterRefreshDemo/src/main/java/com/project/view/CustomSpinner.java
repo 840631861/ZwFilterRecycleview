@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-
 import com.library.R;
 
 import java.util.ArrayList;
