@@ -2,6 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+
+    build{
+        repositories{
+            maven { url 'https://jitpack.io' }
+        }
+    }
+
     defaultConfig {
         applicationId "com.project"
         minSdkVersion 19
