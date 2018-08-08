@@ -239,3 +239,9 @@ hideBar(Boolean isHideComBtn, Boolean isHideSortBtn, Boolean isHideFilterBtn)
 
 ### 附
 minSdkVersion 19  targetSdkVersion 27
+
+使用了https://github.com/840631861/RangeSeekBar 
+
+https://github.com/840631861/PullToRefresh
+
+https://github.com/840631861/TimePickerDialog
