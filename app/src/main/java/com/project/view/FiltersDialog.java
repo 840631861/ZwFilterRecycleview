@@ -19,8 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.jaygoo.widget.OnRangeChangedListener;
-import com.jaygoo.widget.RangeSeekBar;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -30,6 +28,8 @@ import com.project.manager.FilterManager;
 import com.project.model.FilterCheckData;
 import com.project.model.FilterCheckDataItem;
 import com.project.model.FilterData;
+import com.project.seekbar.OnRangeChangedListener;
+import com.project.seekbar.RangeSeekBar;
 import com.project.utils.ListSortUtil;
 
 import java.text.SimpleDateFormat;

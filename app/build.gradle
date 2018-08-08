@@ -3,12 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
 
-    build{
-        repositories{
-            maven { url 'https://jitpack.io' }
-        }
-    }
-
     defaultConfig {
         applicationId "com.project"
         minSdkVersion 19
@@ -41,6 +35,4 @@ dependencies {
     compile ('com.jzxiang.pickerview:TimePickerDialog:1.0.1'){
         exclude module: 'support-v4'
     }
-    //RangeSeekBar
-    implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
 }
