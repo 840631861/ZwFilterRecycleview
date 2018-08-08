@@ -24,4 +24,5 @@
         <!-- 筛选按钮文字 -->
         <attr name="barFilterText" format="string"></attr>
     </declare-styleable>
+
 </resources>

@@ -27,4 +27,10 @@
         <item name="android:windowEnterAnimation">@anim/pop_right_show</item>
         <item name="android:windowExitAnimation">@anim/pop_right_hide</item>
     </style>
+
+    <style name="topShow" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_top_show</item>
+        <item name="android:windowExitAnimation">@anim/pop_top_hide</item>
+    </style>
+
 </resources>

@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onFilterItemChange(FilterData data) {
                         //点击或改变筛选中的item数值后的回调
+                        Toast.makeText(context,"点击了选项",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnFilterConfirmClickListener(new IListView.OnFilterConfirmClickListener() {
@@ -84,7 +85,9 @@ public class MainActivity extends AppCompatActivity
                     public void onAddCustemView(View parent, View custom) {
                         //自定义布局回调
                     }
-                });
+                })
+                .addSeekBar1("距离",0,200,0)
+                .addSeekBar2("距离2",0,200,0);
 
         final List<String> spinnerData = new ArrayList<>();
         spinnerData.add("综合");spinnerData.add("时间正序");spinnerData.add("时间倒序");spinnerData.add("热门搜索");
@@ -109,7 +112,8 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 })
-                .setComSpinnerSelectedIndex(0);
+                .setComSpinnerSelectedIndex(0)
+                .setMarkData(setMarkData());
 
         view.updateView();
 
@@ -171,7 +175,7 @@ public class MainActivity extends AppCompatActivity
         dataItem1.setShowName("语文"); dataItem1.setChecked(false);
         dataItem2.setShowName("数学"); dataItem2.setChecked(false);
         dataItem3.setShowName("英语"); dataItem3.setChecked(false);
-        dataItem4.setShowName("历史"); dataItem4.setChecked(true);
+        dataItem4.setShowName("历史"); dataItem4.setChecked(false);
         ls.add(dataItem1);ls.add(dataItem2);
         ls2.add(dataItem3);ls2.add(dataItem4);
         data.setList(ls);
@@ -186,6 +190,18 @@ public class MainActivity extends AppCompatActivity
         list.add(data);
         list.add(data2);
         return list;
+    }
+
+    public ArrayList<FilterCheckDataItem> setMarkData()
+    {
+        final ArrayList<FilterCheckDataItem> markData = new ArrayList<>();
+        for( int i=0;i<10;i++ ){
+            FilterCheckDataItem item = new FilterCheckDataItem();
+            item.setChecked(false);
+            item.setShowName("标签标签"+i);
+            markData.add(item);
+        }
+        return markData;
     }
 
 }

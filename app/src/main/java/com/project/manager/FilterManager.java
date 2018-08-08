@@ -1,8 +1,12 @@
 package com.project.manager;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Filter;
 import android.widget.LinearLayout;
 
@@ -24,6 +28,7 @@ public class FilterManager implements View.OnClickListener {
     private Context context;
     private View view;
 
+    private LinearLayout ll_top_bar;
     private LinearLayout ll_filter_btn;//筛选按钮
     private FiltersDialog filtersDialog;//侧拉弹窗
     private IListView.OnFilterConfirmClickListener onFilterConfirmClickListener;//确认按钮点击事件
@@ -43,9 +48,12 @@ public class FilterManager implements View.OnClickListener {
 
     private void initView()
     {
+        ll_top_bar = view.findViewById(R.id.ll_top_bar);
         ll_filter_btn = view.findViewById(R.id.ll_filter_btn);
         ll_filter_btn.setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -54,7 +62,7 @@ public class FilterManager implements View.OnClickListener {
             case R.id.ll_filter_btn:
                 if( filtersDialog == null )
                     filtersDialog = new FiltersDialog(context);
-                filtersDialog.show();
+                filtersDialog.showAsDropDown(ll_top_bar);
                 break;
         }
     }
@@ -151,6 +159,18 @@ public class FilterManager implements View.OnClickListener {
     public FilterManager addSearchTxt()
     {
         filtersDialog.addSearchTxt();
+        return this;
+    }
+
+    //添加seekbar
+    public FilterManager addSeekBar1(String title,int min,int max,int color)
+    {
+        filtersDialog.setSeekBar1(title,min,max,color);
+        return this;
+    }
+    public FilterManager addSeekBar2(String title,int min,int max,int color)
+    {
+        filtersDialog.setSeekBar2(title,min,max,color);
         return this;
     }
 

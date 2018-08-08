@@ -1,25 +1,26 @@
 package com.project.view;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.jaygoo.widget.OnRangeChangedListener;
+import com.jaygoo.widget.RangeSeekBar;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
@@ -41,9 +42,10 @@ import java.util.List;
  * Created by Administrator on 2018/6/29.
  */
 
-public class FiltersDialog extends Dialog implements View.OnClickListener {
+public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     private Context context;
     private View view;
+    private View trans_view,ll_content;
     private FilterData mData;
     private List<FilterCheckData> checkDatas;
 
@@ -68,29 +70,107 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
     private EditText et_search;
     //自定义
     private LinearLayout ll_custom;
+    //SeekBar
+    private LinearLayout ll_seekbar1,ll_seekbar2;
+    private TextView tv_seekbar_title1,tv_seekbar_title2;
+    private RangeSeekBar seekBar1,seekBar2;
+
 
     public FiltersDialog(Context context) {
         super(context);
         this.context = context;
         inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.dlg_filters, null);
+        trans_view = (View) view.findViewById(R.id.trans_view);
+        ll_content = view.findViewById(R.id.ll_content);
+
+        //设置SelectPicPopupWindow的View
+        this.setContentView(view);
+        //在PopupWindow里面就加上下面代码，让键盘弹出时，不会挡住pop窗口。
+        this.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //设置SelectPicPopupWindow弹出窗体的宽
+        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        //设置SelectPicPopupWindow弹出窗体的高
+        this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        //设置SelectPicPopupWindow弹出窗体可点击
+        this.setFocusable(true);
+        //设置SelectPicPopupWindow弹出窗体动画效果
+        //this.setAnimationStyle(R.style.topShow);
+        //实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0x00000000);
+        //设置SelectPicPopupWindow弹出窗体的背景
+        this.setBackgroundDrawable(dw);
+        //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                int height = view.getTop();
+                int bottom = view.findViewById(R.id.ll_bottom).getBottom();
+                int y=(int) event.getY();
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    if(y<height || y>bottom){
+                        dismiss();
+                    }
+                }
+                return true;
+            }
+        });
+
 
         mData = new FilterData();
         List<FilterCheckData> checks = new ArrayList<>();
         mData.setCheckDatas(checks);
         checkDatas = mData.getCheckDatas();
 
-        //按空白处不能取消动画
-        setCanceledOnTouchOutside(true);
         //初始化界面控件
         initView();
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(view);
+    public void dismiss() {
 
+        Animation showAnim =  AnimationUtils.loadAnimation(context, R.anim.bg_alpha_hide);
+        showAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Animation topAnim = AnimationUtils.loadAnimation(context, R.anim.pop_top_hide);
+                topAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        FiltersDialog.super.dismiss();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                ll_content.startAnimation(topAnim);
+                trans_view.setVisibility(View.GONE);
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {}
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        trans_view.startAnimation(showAnim);
+
+    }
+
+    @Override
+    public void showAsDropDown(View parent) {
+        trans_view.setVisibility(View.VISIBLE);
+        trans_view.startAnimation(AnimationUtils.loadAnimation(context,
+                R.anim.bg_alpha_show));
+        ll_content.startAnimation(AnimationUtils.loadAnimation(context,
+                R.anim.pop_top_show));
+        super.showAsDropDown(parent);
     }
 
     /**
@@ -116,6 +196,13 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
 
         tv_confirm.setOnClickListener(this);
         tv_reset.setOnClickListener(this);
+
+        ll_seekbar1 = view.findViewById(R.id.ll_seekbar1);
+        ll_seekbar2 = view.findViewById(R.id.ll_seekbar2);
+        tv_seekbar_title1 = view.findViewById(R.id.tv_seekbar_title1);
+        tv_seekbar_title2 = view.findViewById(R.id.tv_seekbar_title2);
+        seekBar1 = view.findViewById(R.id.seekBar1);
+        seekBar2 = view.findViewById(R.id.seekBar2);
     }
 
     @Override
@@ -243,6 +330,65 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
         Date d = new Date(time);
         return sf.format(d);
     }
+
+    ////////////////////////////////////////////////////////seekbar///////////////////////////////////////
+    public FiltersDialog setSeekBar1(String title,int min,int max,int color)
+    {
+        ll_seekbar1.setVisibility(View.VISIBLE);
+        tv_seekbar_title1.setText(title);
+        if( color > 0 )
+        {
+            seekBar1.setProgressColor(color);
+        }
+        seekBar1.setRange(min,max);
+        seekBar1.setIndicatorTextDecimalFormat("0");
+        seekBar1.setOnRangeChangedListener(new OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+                mData.setSeekbarNum1Start(leftValue);
+                mData.setSeekbarNum1End(rightValue);
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
+                onItemChangeListener.onItemChangeListener(mData);
+            }
+        });
+        return this;
+    }
+    public FiltersDialog setSeekBar2(String title,int min,int max,int color)
+    {
+        ll_seekbar2.setVisibility(View.VISIBLE);
+        tv_seekbar_title2.setText(title);
+        if( color > 0 )
+        {
+            seekBar2.setProgressColor(color);
+        }
+        seekBar2.setRange(min,max);
+        seekBar2.setIndicatorTextDecimalFormat("0");
+        seekBar2.setOnRangeChangedListener(new OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+                mData.setSeekbarNum2Start(leftValue);
+                mData.setSeekbarNum2End(rightValue);
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
+                onItemChangeListener.onItemChangeListener(mData);
+            }
+        });
+        return this;
+    }
+
 
     /////////////////////////////////////////////////////事件///////////////////////////////////////////
     //确认监听事件
@@ -372,6 +518,7 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
             View view = parent.getChildAt(i);
             CheckText checkText = view.findViewById(R.id.txt);
             checkText.setChecked(false);
+            checkDatas.get(i).setChecked(false);
         }
     }
 
@@ -450,51 +597,5 @@ public class FiltersDialog extends Dialog implements View.OnClickListener {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //显示、隐藏动画
-    @Override
-    protected void onStart() {
-        super.onStart();
-        view.measure(0,0);
-        int viewH = view.getMeasuredHeight();
-        int viewW = view.getMeasuredWidth();
 
-        Window window = getWindow();
-        window.setWindowAnimations(R.style.rightShow);
-        WindowManager.LayoutParams windowparams = window.getAttributes();
-        window.setGravity(Gravity.RIGHT);
-        //设置发生动画中的背景
-        windowparams.width = viewW;
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-        window.setAttributes(windowparams);
-    }
-
-
-    ////手指控制dialog滑动隐藏
-    float startX;
-    float moveX = 0;
-    @Override
-    public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX = ev.getX();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                moveX = ev.getX() - startX;
-                view.scrollBy(-(int) moveX, 0);
-                startX = ev.getX();
-                if (view.getScrollX() > 0) {
-                    view.scrollTo(0, 0);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (view.getScrollX() < -this.getWindow().getAttributes().width / 4 && moveX > 0) {
-                    this.dismiss();
-
-                }
-                view.scrollTo(0, 0);
-                break;
-        }
-        return super.dispatchTouchEvent(ev);
-    }
 }

@@ -1,5 +1,6 @@
 package com.project.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,15 @@ public class Params
     int comIndex;
     int sort;
     FilterData filterData;
+    ArrayList<FilterCheckDataItem> markData;
+
+    public ArrayList<FilterCheckDataItem> getMarkData() {
+        return markData;
+    }
+
+    public void setMarkData(ArrayList<FilterCheckDataItem> markData) {
+        this.markData = markData;
+    }
 
     public int getComIndex() {
         return comIndex;
