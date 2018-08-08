@@ -1,5 +1,7 @@
 package com.project.manager;
 
+import android.view.View;
+
 import com.project.model.FilterData;
 
 /**
@@ -28,5 +30,13 @@ public interface IListView
     //筛选弹窗中item状态改变或数值变动时监听
     interface OnFilterItemChangeListener{
         void onFilterItemChange(FilterData data);
+    }
+    //添加自定义布局回调
+    interface OnAddCustemViewCallback{
+        void onAddCustemView(View parent, View custom);
+    }
+    //mark标签点击事件
+    interface OnMarkItemClickListener{
+        void onMarkItemClick(int position);
     }
 }

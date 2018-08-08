@@ -11,13 +11,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
-
 import com.library.R;
 import com.project.commom.comm;
 import com.project.manager.FilterManager;
 import com.project.manager.ViewBarManager;
+import com.project.model.FilterCheckDataItem;
 import com.project.model.FilterData;
 import com.project.model.Params;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2018/6/22.
@@ -137,9 +139,11 @@ public class ZwFilterRefreshView extends LinearLayout
         int comPosition = getViewBarManager().getComSpinnerSelected();
         int sort = getViewBarManager().getSortStatus();
         FilterData filterData = getFilterManager().getFilterDatas();
+        ArrayList<FilterCheckDataItem> markData = getViewBarManager().getMarkData();
         params.setComIndex(comPosition);
         params.setSort(sort);
         params.setFilterData(filterData);
+        params.setMarkData(markData);
         return params;
     }
 

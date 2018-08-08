@@ -14,4 +14,5 @@
         <attr name="barSortText" format="string"></attr>
         <attr name="barFilterText" format="string"></attr>
     </declare-styleable>
+
 </resources>

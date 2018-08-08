@@ -1,11 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00ffffff">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/trans_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible"
+        android:background="#30000000"/>
 
     <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
         android:layout_alignParentRight="true"
         android:background="@color/white"
         android:orientation="vertical"
@@ -20,6 +28,76 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+                <!-- seekbar -->
+                <LinearLayout
+                    android:id="@+id/ll_seekbars"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/ll_seekbar1"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_seekbar_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                        <com.jaygoo.widget.RangeSeekBar
+                            android:id="@+id/seekBar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:rsb_mode="range"
+                            app:rsb_tick_mark_mode="number"
+                            app:rsb_progress_color="@color/colorAccent"
+                            app:rsb_indicator_height="25dp"
+                            app:rsb_indicator_width="30dp"
+                            app:rsb_indicator_show_mode="alwaysShow"
+                            app:rsb_indicator_background_color="@color/colorAccent"
+                            app:rsb_thumb_size="20dp"
+                            app:rsb_indicator_margin="3dp"
+                            app:rsb_indicator_radius="5dp"
+                            app:rsb_orientation="right"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_seekbar2"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_seekbar_title2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                        <com.jaygoo.widget.RangeSeekBar
+                            android:id="@+id/seekBar2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:rsb_mode="range"
+                            app:rsb_tick_mark_mode="number"
+                            app:rsb_progress_color="@color/colorAccent"
+                            app:rsb_indicator_height="25dp"
+                            app:rsb_indicator_width="30dp"
+                            app:rsb_indicator_show_mode="alwaysShow"
+                            app:rsb_indicator_background_color="@color/colorAccent"
+                            app:rsb_thumb_size="20dp"
+                            app:rsb_indicator_margin="3dp"
+                            app:rsb_indicator_radius="5dp"
+                            app:rsb_orientation="right"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!-- 存放单选或多选的checktext 不能放其他东西 -->
                 <LinearLayout
                     android:id="@+id/ll_filter_content"
@@ -102,6 +180,7 @@
                             android:background="@drawable/radius_gray_full"/>
                     </LinearLayout>
                 </LinearLayout>
+
                 <!-- 自定义区域 -->
                 <LinearLayout
                     android:id="@+id/ll_custom"
@@ -113,9 +192,10 @@
             </LinearLayout>
         </ScrollView>
         <LinearLayout
+            android:id="@+id/ll_bottom"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_width="280dp"
+            android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="wrap_content">
             <TextView

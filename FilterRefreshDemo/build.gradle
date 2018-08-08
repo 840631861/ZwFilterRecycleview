@@ -37,4 +37,6 @@ dependencies {
     compile ('com.jzxiang.pickerview:TimePickerDialog:1.0.1'){
         exclude module: 'support-v4'
     }
+    //RangeSeekBar
+    implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
 }

@@ -2,14 +2,22 @@ package com.project.manager;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.library.R;
+import com.project.adapter.MarkRecycleAdapter;
+import com.project.model.FilterCheckDataItem;
+import com.project.view.CheckText;
 import com.project.view.CustomSpinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +37,9 @@ public class ViewBarManager
     private ImageView img_sort,img_filter;
     private CustomSpinner customSpinner;
 
+    //标签
+    private RecyclerView recy_marks;
+
     //字体、高度、颜色
     private int barTxtSize ;//顶部栏按钮字体大小
     private int barHeight ;//顶部栏高度
@@ -45,9 +56,11 @@ public class ViewBarManager
     //监听
     private IListView.OnSortClickListener onSortClickListener;
     private IListView.OnComSpinnerSelectedListener onComSpinnerSelectedListener;
+    private IListView.OnMarkItemClickListener onMarkItemClickListener;//标签点击事件监听
 
     //状态值
     private int sortStatus = SORT_STATUS_DEFAULT;//排序状态
+
     public static int SORT_STATUS_DEFAULT = 0;
     public static int SORT_STATUS_ASC = 1;
     public static int SORT_STATUS_DESC = -1;
@@ -65,6 +78,8 @@ public class ViewBarManager
         ll_top_bar = view.findViewById(R.id.ll_top_bar);
         ll_filter_btn = view.findViewById(R.id.ll_filter_btn);
         ll_sort_btn = view.findViewById(R.id.ll_sort_btn);
+
+        recy_marks = view.findViewById(R.id.recy_marks);
 
         tv_bar_sort = ll_top_bar.findViewById(R.id.tv_bar_sort);
         tv_bar_filter = ll_top_bar.findViewById(R.id.tv_bar_filter);
@@ -171,7 +186,7 @@ public class ViewBarManager
         }
     }
 
-    //设置培训状态
+    //设置排序状态
     public int getSortStatus() {
         return sortStatus;
     }
@@ -262,6 +277,53 @@ public class ViewBarManager
         return this;
     }
 
+    //设置标签点击事件监听
+    public ViewBarManager setOnMarkItemClickListener( IListView.OnMarkItemClickListener onMarkItemClickListener )
+    {
+        this.onMarkItemClickListener = onMarkItemClickListener;
+        return this;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////标签相关/////////////////////////////////////////
+
+    private ArrayList<FilterCheckDataItem> mMarkData;
+    public ViewBarManager setMarkData(final ArrayList<FilterCheckDataItem> markData)
+    {
+        mMarkData = markData;
+        recy_marks.setVisibility(View.VISIBLE);
+
+        recy_marks.setHasFixedSize(true);//设置固定大小
+        recy_marks.setItemAnimator(new DefaultItemAnimator());//设置默认动画
+        LinearLayoutManager mLayoutManage=new LinearLayoutManager(context);
+        mLayoutManage.setOrientation(OrientationHelper.HORIZONTAL);//设置滚动方向，横向滚动
+        recy_marks.setLayoutManager(mLayoutManage);
+        MarkRecycleAdapter adapter=new  MarkRecycleAdapter(context,R.layout.item_mark,markData);
+        recy_marks.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new MarkRecycleAdapter.OnRecycleViewItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                CheckText checkText = view.findViewById(R.id.tv_text);
+                if( checkText.isChecked() ){
+                    checkText.setChecked(false);
+                    markData.get(position).setChecked(false);
+                }else {
+                    checkText.setChecked(true);
+                    markData.get(position).setChecked(true);
+                }
+                if( onMarkItemClickListener != null )
+                    onMarkItemClickListener.onMarkItemClick(position);
+            }
+        });
+        return this;
+    }
+
+    //获取标签数据
+    public ArrayList<FilterCheckDataItem> getMarkData()
+    {
+        return mMarkData;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////其他//////////////////////////////////////
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
@@ -286,4 +348,6 @@ public class ViewBarManager
         }
         return scale;
     }
+
+
 }

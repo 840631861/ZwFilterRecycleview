@@ -12,6 +12,42 @@ public class FilterData
     long timeStart;
     long timeEnd;
     String searchTxt;
+    float seekbarNum1Start;
+    float seekbarNum1End;
+    float seekbarNum2Start;
+    float seekbarNum2End;
+
+    public float getSeekbarNum1Start() {
+        return seekbarNum1Start;
+    }
+
+    public void setSeekbarNum1Start(float seekbarNum1Start) {
+        this.seekbarNum1Start = seekbarNum1Start;
+    }
+
+    public float getSeekbarNum1End() {
+        return seekbarNum1End;
+    }
+
+    public void setSeekbarNum1End(float seekbarNum1End) {
+        this.seekbarNum1End = seekbarNum1End;
+    }
+
+    public float getSeekbarNum2Start() {
+        return seekbarNum2Start;
+    }
+
+    public void setSeekbarNum2Start(float seekbarNum2Start) {
+        this.seekbarNum2Start = seekbarNum2Start;
+    }
+
+    public float getSeekbarNum2End() {
+        return seekbarNum2End;
+    }
+
+    public void setSeekbarNum2End(float seekbarNum2End) {
+        this.seekbarNum2End = seekbarNum2End;
+    }
 
     public String getSearchTxt() {
         return searchTxt;
