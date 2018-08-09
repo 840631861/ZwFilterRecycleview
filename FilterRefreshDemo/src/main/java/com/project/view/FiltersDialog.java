@@ -387,6 +387,12 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         return this;
     }
 
+    public RangeSeekBar getSeekBar1(){
+        return seekBar1;
+    }
+    public RangeSeekBar getSeekBar2(){
+        return seekBar2;
+    }
 
     /////////////////////////////////////////////////////事件///////////////////////////////////////////
     //确认监听事件

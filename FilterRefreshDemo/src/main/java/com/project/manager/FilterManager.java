@@ -9,6 +9,7 @@ import com.jzxiang.pickerview.data.Type;
 import com.library.R;
 import com.project.model.FilterCheckData;
 import com.project.model.FilterData;
+import com.project.seekbar.RangeSeekBar;
 import com.project.view.FiltersDialog;
 
 import java.util.List;
@@ -165,6 +166,15 @@ public class FilterManager implements View.OnClickListener {
     {
         filtersDialog.setSeekBar2(title,min,max,color);
         return this;
+    }
+    //获取seekbar
+    public RangeSeekBar getSeekbar1()
+    {
+        return filtersDialog.getSeekBar1();
+    }
+    public RangeSeekBar getSeekbar2()
+    {
+        return filtersDialog.getSeekBar2();
     }
 
     //添加自定义布局
