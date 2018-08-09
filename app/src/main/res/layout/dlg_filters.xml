@@ -27,7 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="20dp"
+                android:paddingBottom="10dp"
                 android:orientation="vertical">
                 <!-- seekbar -->
                 <LinearLayout
@@ -194,6 +194,7 @@
         </ScrollView>
         <LinearLayout
             android:id="@+id/ll_bottom"
+            android:paddingTop="5dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_width="match_parent"

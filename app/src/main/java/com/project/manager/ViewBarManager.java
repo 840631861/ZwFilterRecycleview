@@ -145,6 +145,8 @@ public class ViewBarManager
     //设置初始事件
     private void initEvent()
     {
+        //选中排序后，下拉菜单改为选中第一项；选中下拉菜单后（非第一项），排序改为默认
+
         //排序点击事件
         ll_sort_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,17 +158,26 @@ public class ViewBarManager
                 else if( sortStatus == SORT_STATUS_DESC )
                     sortStatus = SORT_STATUS_DEFAULT;
 
+                customSpinner.setSelectedIndex(0);
                 changeSortViewByStatus();
+
                 if( onSortClickListener != null )
-                onSortClickListener.onSortClick(sortStatus);
+                    onSortClickListener.onSortClick(sortStatus);
             }
         });
         //综合下拉菜单
         customSpinner.setOnItemSelectedListener(new CustomSpinner.OnItemSelectedListenerSpinner() {
             @Override
-            public void onItemSelected(int index) {
+            public void onItemSelected(int index)
+            {
+                if( index > 0 )
+                {
+                    setSortStatus(SORT_STATUS_DEFAULT);
+                    changeSortViewByStatus();
+                }
+
                 if( onComSpinnerSelectedListener != null )
-                onComSpinnerSelectedListener.onComSpinnerSelected(index);
+                    onComSpinnerSelectedListener.onComSpinnerSelected(index);
             }
         });
     }

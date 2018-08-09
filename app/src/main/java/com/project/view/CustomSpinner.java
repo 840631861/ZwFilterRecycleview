@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,6 +74,7 @@ public class CustomSpinner extends LinearLayout {
         initView(context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public CustomSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
@@ -227,6 +230,8 @@ public class CustomSpinner extends LinearLayout {
     }
     public void setSelectedIndex(int index){
         tv_name.setText(list.get(index));
+        postion = index;
+
         if( onItemSelectedListener != null )
             onItemSelectedListener.onItemSelected(index);
     }

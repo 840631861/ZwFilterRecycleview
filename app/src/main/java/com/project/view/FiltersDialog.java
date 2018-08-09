@@ -547,6 +547,8 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         tv_time_start.setText("");
         tv_time_end.setText("");
         et_search.setText("");
+        seekBar1.setValue(0,0);
+        seekBar2.setValue(0,0);
     }
 
     //适配器
