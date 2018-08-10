@@ -36,4 +36,9 @@ public interface IListView
     interface OnMarkItemClickListener{
         void onMarkItemClick(int position);
     }
+
+    //pop弹出事件
+    interface OnPopShowListener{
+        void onPopShow();
+    }
 }

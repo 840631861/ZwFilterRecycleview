@@ -55,6 +55,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     private OnConfirmClickListener onConfirmClickListener;//确认按钮点击事件
     private OnResetClickListener onResetClickListener;//重置按钮事件监听
     private OnItemChangeListener onItemChangeListener;//item改变事件监听
+    private OnPopShowListener onPopShowListener;//item改变事件监听
 
 
     //时间段
@@ -171,6 +172,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         ll_content.startAnimation(AnimationUtils.loadAnimation(context,
                 R.anim.pop_top_show));
         super.showAsDropDown(parent);
+        onPopShowListener.onPopShow();
     }
 
     /**
@@ -421,6 +423,14 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     }
     public void setOnItemChangeListener(OnItemChangeListener onItemChangeListener){
         this.onItemChangeListener = onItemChangeListener;
+    }
+
+    //显示pop监听
+    public interface OnPopShowListener{
+        void onPopShow();
+    }
+    public void setOnPopShowListener( OnPopShowListener onPopShowListener ){
+        this.onPopShowListener = onPopShowListener;
     }
 
     //添加自定义布局

@@ -30,6 +30,7 @@ public class FilterManager implements View.OnClickListener {
     private IListView.OnFilterItemChangeListener onFilterItemChangeListener;//item状态改变事件
     private IListView.OnFilterResetClickListener onFilterResetClickListener;//重置监听
     private IListView.OnAddCustemViewCallback onAddCustemViewCallback;//添加自定义布局回调
+    private IListView.OnPopShowListener onPopShowListener;//pop弹出监听
     public static int FILTER_TYPE_SIN_ELECTION = 1;//单选
     public static int FILTER_TYPE_MUL_ELECTION = 2;//多选
 
@@ -112,9 +113,19 @@ public class FilterManager implements View.OnClickListener {
                 onFilterResetClickListener.onFilterResetClick(data);
             }
         });
+        filtersDialog.setOnPopShowListener(new FiltersDialog.OnPopShowListener() {
+            @Override
+            public void onPopShow() {
+                if( onPopShowListener != null )
+                    onPopShowListener.onPopShow();
+            }
+        });
+
     }
 
     /////////////////////////////////////////////////////事件///////////////////////////////////////////
+
+
     //确认点击事件
     public FilterManager setOnFilterConfirmClickListener(IListView.OnFilterConfirmClickListener onFilterConfirmClickListener)
     {
@@ -131,6 +142,13 @@ public class FilterManager implements View.OnClickListener {
     public FilterManager setOnFilterResetClickListener(IListView.OnFilterResetClickListener onFilterResetClickListener)
     {
         this.onFilterResetClickListener = onFilterResetClickListener;
+        return this;
+    }
+
+    //pop弹出监听
+    public FilterManager setOnPopShowListener(IListView.OnPopShowListener onPopShowListener)
+    {
+        this.onPopShowListener = onPopShowListener;
         return this;
     }
 
