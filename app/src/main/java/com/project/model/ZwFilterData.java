@@ -6,9 +6,9 @@ import java.util.List;
  * Created by Administrator on 2018/7/11.
  */
 
-public class FilterData
+public class ZwFilterData
 {
-    List<FilterCheckData> checkDatas;
+    List<ZwFilterCheckData> checkDatas;
     long timeStart;
     long timeEnd;
     String searchTxt;
@@ -57,11 +57,11 @@ public class FilterData
         this.searchTxt = searchTxt;
     }
 
-    public List<FilterCheckData> getCheckDatas() {
+    public List<ZwFilterCheckData> getCheckDatas() {
         return checkDatas;
     }
 
-    public void setCheckDatas(List<FilterCheckData> checkDatas) {
+    public void setCheckDatas(List<ZwFilterCheckData> checkDatas) {
         this.checkDatas = checkDatas;
     }
 

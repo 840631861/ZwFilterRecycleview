@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.project.R;
-import com.project.model.FilterCheckDataItem;
+import com.project.model.ZwFilterCheckDataItem;
 import com.project.view.CheckText;
 
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 public class MarkRecycleAdapter extends RecyclerView.Adapter<MarkRecycleAdapter.MyViewHoler> implements View.OnClickListener {
     int ResourceID;
     Context mContext;
-    ArrayList<FilterCheckDataItem> mData;
+    ArrayList<ZwFilterCheckDataItem> mData;
     private OnRecycleViewItemClickListener mOnItemClickListener;
 
-    public MarkRecycleAdapter(Context context, int resourceID, ArrayList<FilterCheckDataItem> brings) {
+    public MarkRecycleAdapter(Context context, int resourceID, ArrayList<ZwFilterCheckDataItem> brings) {
         mContext=context;
         mData=brings;
         ResourceID=resourceID;
@@ -33,7 +33,7 @@ public class MarkRecycleAdapter extends RecyclerView.Adapter<MarkRecycleAdapter.
     public void onBindViewHolder(MyViewHoler holder, int position) {
 
         //相当于listview的adapter中的getview方法
-        FilterCheckDataItem item=mData.get(position);
+        ZwFilterCheckDataItem item=mData.get(position);
         holder.tvToolName.setText(item.getShowName());
         if( item.getChecked() )
             holder.tvToolName.setChecked(true);

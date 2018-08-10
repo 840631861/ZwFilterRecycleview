@@ -8,25 +8,31 @@ import android.view.ViewGroup;
 
 import com.library.R;
 import com.project.model.ZwFilterCheckDataItem;
-import com.project.view.CheckText;
+import com.project.utils.DensityUtil;
+import com.project.view.BarCheckText;
 
 import java.util.ArrayList;
 
 /**
- * 标签横向滚动适配器
+ * 顶部栏按钮横向滚动适配器
  * Created by Administrator on 2018/8/8.
  */
 
-public class MarkRecycleAdapter extends RecyclerView.Adapter<MarkRecycleAdapter.MyViewHoler> implements View.OnClickListener {
+public class BarBtnsRecycleAdapter extends RecyclerView.Adapter<BarBtnsRecycleAdapter.MyViewHoler> implements View.OnClickListener {
     int ResourceID;
     Context mContext;
     ArrayList<ZwFilterCheckDataItem> mData;
     private OnRecycleViewItemClickListener mOnItemClickListener;
+    int barTxtSize,barTxtColor,barTxtColorActive,barHeight;
 
-    public MarkRecycleAdapter(Context context, int resourceID, ArrayList<ZwFilterCheckDataItem> brings) {
+    public BarBtnsRecycleAdapter(Context context, int resourceID, ArrayList<ZwFilterCheckDataItem> brings, int barTxtSize, int barTxtColor, int barTxtColorActive, int barHeight) {
         mContext=context;
         mData=brings;
         ResourceID=resourceID;
+        this.barTxtSize = barTxtSize;
+        this.barTxtColor = barTxtColor;
+        this.barTxtColorActive = barTxtColorActive;
+        this.barHeight = barHeight;
     }
 
     @Override
@@ -34,6 +40,10 @@ public class MarkRecycleAdapter extends RecyclerView.Adapter<MarkRecycleAdapter.
 
         //相当于listview的adapter中的getview方法
         ZwFilterCheckDataItem item=mData.get(position);
+
+        holder.tvToolName.setCheckedColor(barTxtColorActive,barTxtColor);
+        holder.tvToolName.setTextSize(barTxtSize);
+        holder.tvToolName.setHeight(DensityUtil.dip2px(mContext,barHeight));
         holder.tvToolName.setText(item.getShowName());
         if( item.getChecked() )
             holder.tvToolName.setChecked(true);
@@ -72,12 +82,11 @@ public class MarkRecycleAdapter extends RecyclerView.Adapter<MarkRecycleAdapter.
     }
     class MyViewHoler extends RecyclerView.ViewHolder
     {
-        private final CheckText tvToolName;
+        private final BarCheckText tvToolName;
 
         public MyViewHoler(View itemView) {
             super(itemView);
-            tvToolName=(CheckText)itemView.findViewById(R.id.tv_text);
-
+            tvToolName=(BarCheckText)itemView.findViewById(R.id.tv_text);
         }
     }
 

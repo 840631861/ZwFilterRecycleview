@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:background="@drawable/border_grid">
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:layout_marginRight="14dp"
+        android:layout_height="40dp"
+        android:textSize="12sp"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
         android:text="aaaaa"
         />
 

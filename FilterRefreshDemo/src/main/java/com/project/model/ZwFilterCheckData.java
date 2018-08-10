@@ -7,14 +7,14 @@ import java.util.List;
  * Created by Administrator on 2018/7/2.
  */
 
-public class FilterCheckData
+public class ZwFilterCheckData
 {
     public static String sortName = "sort";
     int type;//单选、多选  FilterManager.FILTER_TYPE_SIN_ELECTION，FilterManager.FILTER_TYPE_MUL_ELECTION
     String title;
     String id;
     int sort;//排序状态，ViewBarManager.SORT_STATUS_DEFAULT，ViewBarManager.SORT_STATUS_ASC，ViewBarManager.SORT_STATUS_DESC 默认 正序 倒序
-    List<FilterCheckDataItem> list;
+    List<ZwFilterCheckDataItem> list;
 
     public String getId() {
         return id;
@@ -48,11 +48,11 @@ public class FilterCheckData
         this.sort = sort;
     }
 
-    public List<FilterCheckDataItem> getList() {
+    public List<ZwFilterCheckDataItem> getList() {
         return list;
     }
 
-    public void setList(List<FilterCheckDataItem> list) {
+    public void setList(List<ZwFilterCheckDataItem> list) {
         this.list = list;
     }
 }

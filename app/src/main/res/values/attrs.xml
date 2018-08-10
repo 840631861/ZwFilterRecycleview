@@ -13,16 +13,15 @@
         <attr name="barImgCom" format="reference"></attr>
         <!-- 下拉菜单下拉时的图片 -->
         <attr name="barImgComActive" format="reference"></attr>
-        <!-- 排序按钮图标 -->
-        <attr name="barImgSortDefault" format="reference"></attr>
-        <attr name="barImgSortAsc" format="reference"></attr>
-        <attr name="barImgSortDesc" format="reference"></attr>
         <!-- 筛选按钮图标 -->
         <attr name="barImgFilter" format="reference"></attr>
-        <!-- 排序按钮文字 -->
-        <attr name="barSortText" format="string"></attr>
         <!-- 筛选按钮文字 -->
         <attr name="barFilterText" format="string"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="BarCheckText">
+        <attr name="checkedColor" format="color"></attr>
+        <attr name="textColor" format="color"></attr>
     </declare-styleable>
 
 </resources>

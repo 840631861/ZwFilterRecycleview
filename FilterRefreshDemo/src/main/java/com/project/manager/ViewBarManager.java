@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.library.R;
+import com.project.adapter.BarBtnsRecycleAdapter;
 import com.project.adapter.MarkRecycleAdapter;
-import com.project.model.FilterCheckDataItem;
+import com.project.model.ZwFilterCheckDataItem;
+import com.project.view.BarCheckText;
 import com.project.view.CheckText;
 import com.project.view.CustomSpinner;
 
@@ -32,13 +34,18 @@ public class ViewBarManager
     private View view;
     private LinearLayout ll_top_bar;//顶部操作栏
     private LinearLayout ll_filter_btn;//筛选按钮
-    private LinearLayout ll_sort_btn;//排序按钮
-    private TextView tv_bar_sort,tv_bar_filter;//按钮文字
-    private ImageView img_sort,img_filter;
+    private TextView tv_bar_filter;//按钮文字
+    private ImageView img_filter;
     private CustomSpinner customSpinner;
 
     //标签
     private RecyclerView recy_marks;
+    //按钮组
+    private RecyclerView recy_bar_btns;
+
+    //按钮组与下拉菜单只能选中一个，
+    private ZwFilterCheckDataItem barCheckedItem;//当前选中的按钮
+
 
     //字体、高度、颜色
     private int barTxtSize ;//顶部栏按钮字体大小
@@ -48,43 +55,30 @@ public class ViewBarManager
     //图标
     private Drawable barImgCom;//顶部栏综合按钮图标
     private Drawable barImgComActive;//顶部栏综合按钮图标（选中时）
-    private Drawable barImgSortDefault;//顶部栏排序按钮图标
-    private Drawable barImgSortAsc;
-    private Drawable barImgSortDesc;
     private Drawable barImgFilter;//顶部栏筛选按钮图标
 
     //监听
-    private IListView.OnSortClickListener onSortClickListener;
-    private IListView.OnComSpinnerSelectedListener onComSpinnerSelectedListener;
+    private IListView.onBarItemSelectedListener onBarItemSelectedListener;
     private IListView.OnMarkItemClickListener onMarkItemClickListener;//标签点击事件监听
 
-    //状态值
-    private int sortStatus = SORT_STATUS_DEFAULT;//排序状态
-
-    public static int SORT_STATUS_DEFAULT = 0;
-    public static int SORT_STATUS_ASC = 1;
-    public static int SORT_STATUS_DESC = -1;
 
     public ViewBarManager(Context context, View view) {
         this.context = context;
         this.view = view;
         initView();
         initDefaultView();
-        initEvent();
     }
 
     private void initView()
     {
         ll_top_bar = view.findViewById(R.id.ll_top_bar);
         ll_filter_btn = view.findViewById(R.id.ll_filter_btn);
-        ll_sort_btn = view.findViewById(R.id.ll_sort_btn);
 
         recy_marks = view.findViewById(R.id.recy_marks);
+        recy_bar_btns = view.findViewById(R.id.recy_bar_btns);
 
-        tv_bar_sort = ll_top_bar.findViewById(R.id.tv_bar_sort);
         tv_bar_filter = ll_top_bar.findViewById(R.id.tv_bar_filter);
 
-        img_sort = ll_top_bar.findViewById(R.id.img_sort);
         img_filter = ll_top_bar.findViewById(R.id.img_filter);
 
         customSpinner = ll_top_bar.findViewById(R.id.customSpinner);
@@ -94,13 +88,9 @@ public class ViewBarManager
     private void initDefaultView()
     {
         barTxtColorActive = context.getResources().getColor(R.color.colorAccent);
-
         barTxtColor = context.getResources().getColor(R.color.gray_8);
         barImgCom = context.getResources().getDrawable(R.mipmap.ic_tri_down);
         barImgComActive = context.getResources().getDrawable(R.mipmap.ic_tri_up);
-        barImgSortDefault = context.getResources().getDrawable(R.mipmap.ic_sort);
-        barImgSortAsc = context.getResources().getDrawable(R.mipmap.ic_sort_asc);
-        barImgSortDesc = context.getResources().getDrawable(R.mipmap.ic_sort_desc);
         barImgFilter = context.getResources().getDrawable(R.mipmap.ic_filter);
 
         if( barTxtSize == 0 )
@@ -119,186 +109,117 @@ public class ViewBarManager
     public void updateBarView()
     {
         //设置顶部栏字体
-        tv_bar_sort.setTextSize(barTxtSize);
         tv_bar_filter.setTextSize(barTxtSize);
         //设置顶部栏高度
         LinearLayout.LayoutParams topBarParams = (LinearLayout.LayoutParams) ll_top_bar.getLayoutParams();
         topBarParams.height = dip2px(context,barHeight);
         ll_top_bar.setLayoutParams(topBarParams);
         img_filter.setImageDrawable(barImgFilter);
-        //根据排序状态改变排序图片样式、字体颜色
-        changeSortViewByStatus();
         //设置spinner字体、颜色等
         customSpinner.setTextStyle(barTxtSize,barTxtColor,barTxtColorActive);
         customSpinner.setTriImg(barImgCom,barImgComActive);
     }
 
-    //设置初始事件
-    private void initEvent()
+    //按钮组全部设为未选中
+    private void clearBarBtnsCheck()
     {
-        //选中排序后，下拉菜单改为选中第一项；选中下拉菜单后（非第一项），排序改为默认
-
-        //排序点击事件
-        ll_sort_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( sortStatus == SORT_STATUS_DEFAULT )
-                    sortStatus = SORT_STATUS_ASC;
-                else if( sortStatus == SORT_STATUS_ASC )
-                    sortStatus = SORT_STATUS_DESC;
-                else if( sortStatus == SORT_STATUS_DESC )
-                    sortStatus = SORT_STATUS_DEFAULT;
-
-                customSpinner.setSelectedIndex(0);
-                changeSortViewByStatus();
-
-                if( onSortClickListener != null )
-                    onSortClickListener.onSortClick(sortStatus);
+        if( mBarBynsData != null )
+        {
+            for (ZwFilterCheckDataItem item:mBarBynsData) {
+                item.setChecked(false);
             }
-        });
-        //综合下拉菜单
+            setBarBtns(mBarBynsData);
+        }
+    }
+    //下拉菜单全部设为未选中
+    private void clearSpinnerCheck()
+    {
+        customSpinner.setSelectedIndex(0);
+        customSpinner.changeTxtColor(false);
+    }
+
+    public ZwFilterCheckDataItem getBarCheckedItemData()
+    {
+        return barCheckedItem;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////下拉菜单///////////////////////////
+    private List<ZwFilterCheckDataItem> mSpinnerData;
+    //设置综合下拉菜单数据
+    public ViewBarManager setComSpinnerData(List<ZwFilterCheckDataItem> data )
+    {
+        mSpinnerData = data;
+        if( data != null || data.size() > 0 )
+            customSpinner.attachDataSource(data);
+
         customSpinner.setOnItemSelectedListener(new CustomSpinner.OnItemSelectedListenerSpinner() {
             @Override
             public void onItemSelected(int index)
             {
-                if( index > 0 )
-                {
-                    setSortStatus(SORT_STATUS_DEFAULT);
-                    changeSortViewByStatus();
-                }
+                clearBarBtnsCheck();
+                barCheckedItem = mSpinnerData.get(index);
+                customSpinner.changeTxtColor(true);
 
-                if( onComSpinnerSelectedListener != null )
-                    onComSpinnerSelectedListener.onComSpinnerSelected(index);
+                if( onBarItemSelectedListener != null )
+                    onBarItemSelectedListener.onBarItemSelected(barCheckedItem);
             }
         });
-    }
 
-    public int getComSpinnerSelected()
-    {
-        return customSpinner.getSelectedPosition();
-    }
-
-    ////////////////////////////////////////////////////////////////排序相关//////////////////////////////////////////////////////////////
-    //根据排序状态改变图片样式、字体颜色
-    private void changeSortViewByStatus()
-    {
-        if( sortStatus == SORT_STATUS_DEFAULT )
-        {
-            img_sort.setImageDrawable(barImgSortDefault);
-            tv_bar_sort.setTextColor(barTxtColor);
-        }else if( sortStatus == SORT_STATUS_ASC )
-        {
-            img_sort.setImageDrawable(barImgSortAsc);
-            tv_bar_sort.setTextColor(barTxtColorActive);
-        }else if( sortStatus == SORT_STATUS_DESC )
-        {
-            img_sort.setImageDrawable(barImgSortDesc);
-            tv_bar_sort.setTextColor(barTxtColorActive);
-        }
-    }
-
-    //设置排序状态
-    public int getSortStatus() {
-        return sortStatus;
-    }
-    public void setSortStatus(int sortStatus) {
-        this.sortStatus = sortStatus;
-    }
-
-    /////////////////////////////////////////////////////////设置顶部栏样式////////////////////////////////////////////////////////////////
-    //设置顶部栏按钮字体大小
-    public ViewBarManager setBarTxtSize(int txtSizePx ){this.barTxtSize = txtSizePx;return this;}
-
-    //设置顶部栏文字
-    public ViewBarManager setSortTxt(String txt ){tv_bar_sort.setText(txt);return this;}
-    public ViewBarManager setFilterTxt(String txt ){tv_bar_filter.setText(txt);return this;}
-
-    //设置顶部栏高度
-    public ViewBarManager setBarHeight(int barHeight ){this.barHeight = barHeight;return this;}
-
-    //设置顶部栏字体颜色
-    public ViewBarManager setBarTxtColor(int color ){this.barTxtColor = color;return this;}
-    public ViewBarManager setBarTxtColorActive(int color ){this.barTxtColorActive = color;return this;}
-
-    //设置顶部栏综合按钮图标
-    public ViewBarManager setBarImgCom(Drawable imgCom, Drawable imgComActive ){
-        this.barImgCom = imgCom;
-        this.barImgComActive = imgComActive;
-        return this;}
-
-    //设置排序按钮图标
-    public ViewBarManager setBarImgSot(Drawable barImgSortDefault, Drawable barImgSortAsc, Drawable barImgSortDesc ){
-        this.barImgSortDefault = barImgSortDefault;
-        this.barImgSortAsc = barImgSortAsc;
-        this.barImgSortDesc = barImgSortDesc;
-        return this;
-    }
-
-    //设置顶部栏筛选图标按钮
-    public ViewBarManager setBarImgFilter(Drawable barImgFilter ){this.barImgFilter = barImgFilter;return this;}
-
-    //设置综合下拉菜单数据
-    public ViewBarManager setComSpinnerData(List<String> data )
-    {
-        if( data != null || data.size() > 0 )
-            customSpinner.attachDataSource(data);
         return this;
     }
 
     public ViewBarManager setComSpinnerSelectedIndex(int index )
     {
         customSpinner.setSelectedIndex(index);
+        customSpinner.changeTxtColor(true);
+        barCheckedItem = mSpinnerData.get(index);
         return this;
     }
 
-    /////////////////////////////////////////////////////////////显示、隐藏////////////////////////////////////////////////////////////////////////
-
-    //隐藏、显示顶部栏
-    public ViewBarManager hideBar(Boolean isHide)
+    public int getComSpinnerSelected()
     {
-        if( isHide )
-            ll_top_bar.setVisibility(View.GONE);
-        else
-            ll_top_bar.setVisibility(View.VISIBLE);
-        return this;
+        return customSpinner.getSelectedPosition();
     }
-    //隐藏、显示顶部栏中的综合按钮、排序按钮、筛选按钮
-    public ViewBarManager hideBar(Boolean isHideComBtn, Boolean isHideSortBtn, Boolean isHideFilterBtn)
+    ////////////////////////////////////////////////////////////////按钮组//////////////////////////////////////////////////////////////
+    private ArrayList<ZwFilterCheckDataItem> mBarBynsData;
+
+    public ViewBarManager setBarBtns(final ArrayList<ZwFilterCheckDataItem> btnData)
     {
-        if( isHideComBtn ) customSpinner.setVisibility(View.GONE); else customSpinner.setVisibility(View.VISIBLE);
-        if( isHideSortBtn ) ll_sort_btn.setVisibility(View.GONE); else ll_sort_btn.setVisibility(View.VISIBLE);
-        if( isHideFilterBtn ) ll_filter_btn.setVisibility(View.GONE); else ll_filter_btn.setVisibility(View.VISIBLE);
+        mBarBynsData = btnData;
+        recy_bar_btns.setHasFixedSize(true);//设置固定大小
+        recy_bar_btns.setItemAnimator(new DefaultItemAnimator());//设置默认动画
+        LinearLayoutManager mLayoutManage=new LinearLayoutManager(context);
+        mLayoutManage.setOrientation(OrientationHelper.HORIZONTAL);//设置滚动方向，横向滚动
+        recy_bar_btns.setLayoutManager(mLayoutManage);
+        BarBtnsRecycleAdapter adapter=new  BarBtnsRecycleAdapter(context,R.layout.item_bar_btn,btnData,barTxtSize,barTxtColor,barTxtColorActive,barHeight);
+        recy_bar_btns.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new BarBtnsRecycleAdapter.OnRecycleViewItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                BarCheckText checkText = view.findViewById(R.id.tv_text);
+                if( !checkText.isChecked() ){
+
+                    clearSpinnerCheck();
+                    clearBarBtnsCheck();
+
+                    checkText.setChecked(true);
+                    btnData.get(position).setChecked(true);
+                    barCheckedItem = btnData.get(position);
+
+                    if( onBarItemSelectedListener != null )
+                        onBarItemSelectedListener.onBarItemSelected(barCheckedItem);
+                }
+            }
+        });
         return this;
     }
 
-    //////////////////////////////////////////////////////监听///////////////////////////////////////////////////////////////////////////////
-
-    //设置排序按钮点击监听
-    public ViewBarManager setOnSortClickListener(IListView.OnSortClickListener onSortClickListener)
-    {
-        this.onSortClickListener = onSortClickListener;
-        return this;
-    }
-
-    //设置综合下拉菜单选中监听
-    public ViewBarManager setOnComSpinnerSelectedListenner(IListView.OnComSpinnerSelectedListener onComSpinnerSelectedListener)
-    {
-        this.onComSpinnerSelectedListener = onComSpinnerSelectedListener;
-        return this;
-    }
-
-    //设置标签点击事件监听
-    public ViewBarManager setOnMarkItemClickListener( IListView.OnMarkItemClickListener onMarkItemClickListener )
-    {
-        this.onMarkItemClickListener = onMarkItemClickListener;
-        return this;
-    }
 
     /////////////////////////////////////////////////////////////////////////////////////////标签相关/////////////////////////////////////////
 
-    private ArrayList<FilterCheckDataItem> mMarkData;
-    public ViewBarManager setMarkData(final ArrayList<FilterCheckDataItem> markData)
+    private ArrayList<ZwFilterCheckDataItem> mMarkData;
+    public ViewBarManager setMarkData(final ArrayList<ZwFilterCheckDataItem> markData)
     {
         mMarkData = markData;
         recy_marks.setVisibility(View.VISIBLE);
@@ -330,9 +251,70 @@ public class ViewBarManager
     }
 
     //获取标签数据
-    public ArrayList<FilterCheckDataItem> getMarkData()
+    public ArrayList<ZwFilterCheckDataItem> getMarkData()
     {
         return mMarkData;
+    }
+
+    /////////////////////////////////////////////////////////设置顶部栏样式////////////////////////////////////////////////////////////////
+    //设置顶部栏按钮字体大小
+    public ViewBarManager setBarTxtSize(int txtSizePx ){this.barTxtSize = txtSizePx;return this;}
+
+    //设置顶部栏文字
+    public ViewBarManager setFilterTxt(String txt ){tv_bar_filter.setText(txt);return this;}
+
+    //设置顶部栏高度
+    public ViewBarManager setBarHeight(int barHeight ){this.barHeight = barHeight;return this;}
+
+    //设置顶部栏字体颜色
+    public ViewBarManager setBarTxtColor(int color ){this.barTxtColor = color;return this;}
+    public ViewBarManager setBarTxtColorActive(int color ){this.barTxtColorActive = color;return this;}
+
+    //设置顶部栏综合按钮图标
+    public ViewBarManager setBarImgCom(Drawable imgCom, Drawable imgComActive ){
+        this.barImgCom = imgCom;
+        this.barImgComActive = imgComActive;
+        return this;}
+
+    //设置顶部栏筛选图标按钮
+    public ViewBarManager setBarImgFilter(Drawable barImgFilter ){this.barImgFilter = barImgFilter;return this;}
+
+
+    /////////////////////////////////////////////////////////////显示、隐藏////////////////////////////////////////////////////////////////////////
+
+    //隐藏、显示顶部栏
+    public ViewBarManager hideBar(Boolean isHide)
+    {
+        if( isHide )
+            ll_top_bar.setVisibility(View.GONE);
+        else
+            ll_top_bar.setVisibility(View.VISIBLE);
+        return this;
+    }
+    //隐藏、显示顶部栏中的综合按钮、排序按钮、筛选按钮
+    public ViewBarManager hideBar(Boolean isHideComBtn, Boolean isHideFilterBtn)
+    {
+        if( isHideComBtn ) customSpinner.setVisibility(View.GONE); else customSpinner.setVisibility(View.VISIBLE);
+        if( isHideFilterBtn ) ll_filter_btn.setVisibility(View.GONE); else ll_filter_btn.setVisibility(View.VISIBLE);
+
+        return this;
+    }
+
+    //////////////////////////////////////////////////////监听///////////////////////////////////////////////////////////////////////////////
+
+
+    //设置综合下拉菜单选中、按钮点击监听
+    public ViewBarManager setOnBarItemSelectedListener(IListView.onBarItemSelectedListener onBarItemSelectedListener)
+    {
+        this.onBarItemSelectedListener = onBarItemSelectedListener;
+        return this;
+    }
+
+    //设置标签点击事件监听
+    public ViewBarManager setOnMarkItemClickListener( IListView.OnMarkItemClickListener onMarkItemClickListener )
+    {
+        this.onMarkItemClickListener = onMarkItemClickListener;
+        return this;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////其他//////////////////////////////////////

@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="35dp"
     android:gravity="center_vertical"
     android:background="@color/white">
+
+    <TextView
+        android:id="@+id/et_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/gray_8"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:clickable="true"
+        android:hint="稍等" />
 
     <ImageView
         android:id="@+id/spinner"
@@ -12,18 +22,6 @@
         android:layout_height="15dp"
         android:layout_centerVertical="true"
         android:src="@mipmap/ic_tri_down"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/et_name"
         />
-
-    <TextView
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/gray_8"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:clickable="true"
-        android:layout_toLeftOf="@id/spinner"
-        android:hint="数据加载中" />
-
 </RelativeLayout>

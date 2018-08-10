@@ -15,9 +15,9 @@ import com.library.R;
 import com.project.commom.comm;
 import com.project.manager.FilterManager;
 import com.project.manager.ViewBarManager;
-import com.project.model.FilterCheckDataItem;
-import com.project.model.FilterData;
-import com.project.model.Params;
+import com.project.model.ZwFilterCheckDataItem;
+import com.project.model.ZwFilterData;
+import com.project.model.ZwParams;
 
 import java.util.ArrayList;
 
@@ -69,11 +69,7 @@ public class ZwFilterRefreshView extends LinearLayout
         int barTxtColorActive = ta.getColor(R.styleable.ZwFilterRefreshView_barTxtColorActive,context.getResources().getColor(R.color.colorAccent));
         Drawable barImgCom = ta.getDrawable(R.styleable.ZwFilterRefreshView_barImgCom);
         Drawable barImgComActive = ta.getDrawable(R.styleable.ZwFilterRefreshView_barImgComActive);
-        Drawable barImgSortDefault = ta.getDrawable(R.styleable.ZwFilterRefreshView_barImgSortDefault);
-        Drawable barImgSortAsc = ta.getDrawable(R.styleable.ZwFilterRefreshView_barImgSortAsc);
-        Drawable barImgSortDesc = ta.getDrawable(R.styleable.ZwFilterRefreshView_barImgSortDesc);
         Drawable barImgFilter = ta.getDrawable(R.styleable.ZwFilterRefreshView_barImgFilter);
-        String barSortText = ta.getString(R.styleable.ZwFilterRefreshView_barSortText);
         String barFilterText = ta.getString(R.styleable.ZwFilterRefreshView_barFilterText);
 
         if( barTxtSize > 0 )
@@ -84,13 +80,9 @@ public class ZwFilterRefreshView extends LinearLayout
         viewBarManager.setBarTxtColorActive(barTxtColorActive);
         if( barImgCom != null && barImgComActive != null )
         viewBarManager.setBarImgCom(barImgCom,barImgComActive);
-        if( barImgSortDefault != null && barImgSortAsc != null && barImgSortDesc != null )
-        viewBarManager.setBarImgSot(barImgSortDefault,barImgSortAsc,barImgSortDesc);
         if( barImgFilter != null )
         viewBarManager.setBarImgFilter(barImgFilter);
 
-        if( !comm.isEmpty(barSortText) )
-            viewBarManager.setSortTxt(barSortText);
         if( !comm.isEmpty(barFilterText) )
             viewBarManager.setFilterTxt(barFilterText);
     }
@@ -133,15 +125,13 @@ public class ZwFilterRefreshView extends LinearLayout
     }
 
     //获取标题栏中当前选中的数据
-    public Params getBarCurData()
+    public ZwParams getBarCurData()
     {
-        Params params = new Params();
-        int comPosition = getViewBarManager().getComSpinnerSelected();
-        int sort = getViewBarManager().getSortStatus();
-        FilterData filterData = getFilterManager().getFilterDatas();
-        ArrayList<FilterCheckDataItem> markData = getViewBarManager().getMarkData();
-        params.setComIndex(comPosition);
-        params.setSort(sort);
+        ZwParams params = new ZwParams();
+        ZwFilterCheckDataItem baCheckItem = getViewBarManager().getBarCheckedItemData();
+        ZwFilterData filterData = getFilterManager().getFilterDatas();
+        ArrayList<ZwFilterCheckDataItem> markData = getViewBarManager().getMarkData();
+        params.setBarCheckItem(baCheckItem);
         params.setFilterData(filterData);
         params.setMarkData(markData);
         return params;

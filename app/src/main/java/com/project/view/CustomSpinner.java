@@ -8,7 +8,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.project.R;
+import com.project.model.ZwFilterCheckDataItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,8 @@ public class CustomSpinner extends LinearLayout {
     private TextView tv_name;
     private ImageView ib;
 
-    //界面控件
-    private ImageView spinner;
     //构造qq号用到的集合
-    private List<String> list = new ArrayList<String>();
+    private List<ZwFilterCheckDataItem> list = new ArrayList<ZwFilterCheckDataItem>();
     //布局加载器
     //自定义适配器
     private MyAdapter mAdapter;
@@ -51,7 +50,7 @@ public class CustomSpinner extends LinearLayout {
     private LayoutInflater mInflater;
     private OnItemSelectedListenerSpinner onItemSelectedListener;
     private int heiht;
-    private int postion = 0;
+    private int postion = -1;
 
     private int barTxtSize;//顶部栏按钮字体大小
     private int barTxtColor;//顶部栏按钮字体颜色
@@ -59,25 +58,31 @@ public class CustomSpinner extends LinearLayout {
     private Drawable barImgCom;//顶部栏综合按钮图标
     private Drawable barImgComActive;//顶部栏综合按钮图标（选中时）
 
+    private Context context;
+
     public CustomSpinner(Context context) {
         super(context);
+        this.context = context;
         initView(context);
     }
 
     public CustomSpinner(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
+        this.context = context;
     }
 
     public CustomSpinner(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
+        this.context = context;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public CustomSpinner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
+        this.context = context;
     }
     //设置文本大小、颜色
     public void setTextStyle( int txtSize,int txtColor,int txtColorActive )
@@ -87,7 +92,10 @@ public class CustomSpinner extends LinearLayout {
         this.barTxtColorActive = txtColorActive;
 
         tv_name.setTextSize(barTxtSize);
-        tv_name.setTextColor(barTxtColor);
+        if( isActive )
+            tv_name.setTextColor(barTxtColorActive);
+        else
+            tv_name.setTextColor(barTxtColor);
     }
 
     public void setTriImg( Drawable img,Drawable imgActive )
@@ -102,13 +110,30 @@ public class CustomSpinner extends LinearLayout {
         return postion;
     }
 
+    private Boolean isActive = false;
+    public void changeTxtColor(Boolean isActive)
+    {
+        this.isActive = isActive;
+        if(isActive)
+            tv_name.setTextColor(barTxtColorActive);
+        else
+        {
+            postion = -1;
+            tv_name.setTextColor(barTxtColor);
+        }
+    }
+
     private void initView(final Context context) {
         mInflater = LayoutInflater.from(context);
         view = mInflater.inflate(R.layout.layout_customspinner, null);
 
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        final int screenWidth = dm.widthPixels;//屏幕宽度
+
         mAdapter = new MyAdapter();
         tv_name = (TextView) view.findViewById(R.id.et_name);
         ib = (ImageView) view.findViewById(R.id.spinner);
+
         tv_name.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +149,7 @@ public class CustomSpinner extends LinearLayout {
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 postion = i;
                                 mAdapter.notifyDataSetChanged();
-                                tv_name.setText(list.get(i));
+                                tv_name.setText(list.get(i).getShowName());
                                 if( barImgCom != null )
                                     ib.setImageDrawable(barImgCom);
                                 else
@@ -141,12 +166,12 @@ public class CustomSpinner extends LinearLayout {
                             int hei = setListViewHeightBasedOnChildren(listView);
                             //这里设置下拉框的高度
                             if (hei >= 550){
-                                pop = new PopupWindow(listView, CustomSpinner.this.view.getWidth(), 550, true);
+                                pop = new PopupWindow(listView, screenWidth, 550, true);
                             }else{
-                                pop = new PopupWindow(listView, CustomSpinner.this.view.getWidth(), hei, true);
+                                pop = new PopupWindow(listView, screenWidth, hei, true);
                             }
                         }else{
-                            pop = new PopupWindow(listView, CustomSpinner.this.view.getWidth(),heiht, true);
+                            pop = new PopupWindow(listView, screenWidth,heiht, true);
                         }
                         pop.setBackgroundDrawable(new ColorDrawable(0x00000000));
                         pop.setFocusable(true);
@@ -192,7 +217,7 @@ public class CustomSpinner extends LinearLayout {
         if (list == null || list.size() == 0){
             tv_name.setText("");
         }else{
-            tv_name.setText(list.get(0));
+            tv_name.setText(list.get(0).getShowName());
         }
         addView(view);
     }
@@ -218,9 +243,9 @@ public class CustomSpinner extends LinearLayout {
 
     }
 
-    public void attachDataSource(List<String> list){
+    public void attachDataSource(List<ZwFilterCheckDataItem> list){
         this.list = list;
-        tv_name.setText(list.get(0));
+        tv_name.setText(list.get(0).getShowName());
     }
     public void setOnItemSelectedListener(OnItemSelectedListenerSpinner onItemSelectedListener){
         this.onItemSelectedListener = onItemSelectedListener;
@@ -229,7 +254,7 @@ public class CustomSpinner extends LinearLayout {
         this.heiht = heiht;
     }
     public void setSelectedIndex(int index){
-        tv_name.setText(list.get(index));
+        tv_name.setText(list.get(index).getShowName());
         postion = index;
 
         if( onItemSelectedListener != null )
@@ -271,7 +296,7 @@ public class CustomSpinner extends LinearLayout {
                 //view.setBackgroundColor(Color.rgb(26,208,189));
                 tv_name.setTextColor(barTxtColorActive);
             }
-            tv_name.setText(list.get(position));
+            tv_name.setText(list.get(position).getShowName());
             //设置按钮的监听事件
             view.setTag(tv_name);
             return view;

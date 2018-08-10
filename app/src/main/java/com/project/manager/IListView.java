@@ -2,11 +2,8 @@ package com.project.manager;
 
 import android.view.View;
 
-import com.project.model.FilterCheckData;
-import com.project.model.FilterData;
-import com.project.model.ZwObject;
-
-import java.util.List;
+import com.project.model.ZwFilterCheckDataItem;
+import com.project.model.ZwFilterData;
 
 /**
  * 有关接口.
@@ -15,25 +12,21 @@ import java.util.List;
 
 public interface IListView
 {
-    //排序按钮点击事件
-    interface OnSortClickListener{
-        void onSortClick(int status);
-    }
-    //综合下拉菜单选中事件
-    interface OnComSpinnerSelectedListener{
-        void onComSpinnerSelected(int index);
+    //顶部按钮选中事件
+    interface onBarItemSelectedListener{
+        void onBarItemSelected(ZwFilterCheckDataItem checkDataItem);
     }
     //筛选弹窗中确认点击事件
     interface OnFilterConfirmClickListener{
-        void onFilterConfirmClick(FilterData data);
+        void onFilterConfirmClick(ZwFilterData data);
     }
     //筛选弹窗中重置按钮事件
     interface OnFilterResetClickListener{
-        void onFilterResetClick(FilterData data);
+        void onFilterResetClick(ZwFilterData data);
     }
     //筛选弹窗中item状态改变或数值变动时监听
     interface OnFilterItemChangeListener{
-        void onFilterItemChange(FilterData data);
+        void onFilterItemChange(ZwFilterData data);
     }
     //添加自定义布局回调
     interface OnAddCustemViewCallback{

@@ -11,52 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical"
         >
         <!-- 按钮 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <com.project.view.CustomSpinner
-                android:id="@+id/customSpinner"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+        <com.project.view.CustomSpinner
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/customSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-            </com.project.view.CustomSpinner>
-            <LinearLayout
-                android:id="@+id/ll_sort_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <View
-                    android:background="@color/gap_line"
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"></View>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/tv_bar_sort"
-                        android:text="排序"
-                        android:textColor="@color/gray_8"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:id="@+id/img_sort"
-                        android:src="@mipmap/ic_sort"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+        </com.project.view.CustomSpinner>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_bar_btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+        </android.support.v7.widget.RecyclerView>
         <!-- 筛选 -->
         <LinearLayout
             android:id="@+id/ll_filter_btn"
@@ -64,21 +36,17 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical">
-            <View
-                android:background="@color/gap_line"
-                android:layout_width="1px"
-                android:layout_height="match_parent"></View>
             <TextView
                 android:id="@+id/tv_bar_filter"
                 android:text="筛选"
-                android:layout_marginLeft="18dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/gray_8"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
                 android:id="@+id/img_filter"
-                android:layout_marginRight="18dp"
+                android:layout_marginRight="10dp"
                 android:src="@mipmap/ic_filter"
                 android:layout_width="13dp"
                 android:layout_height="13dp" />

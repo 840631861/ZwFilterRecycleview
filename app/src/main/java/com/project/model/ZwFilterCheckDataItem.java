@@ -4,7 +4,7 @@ package com.project.model;
  * Created by Administrator on 2018/7/2.
  */
 
-public class FilterCheckDataItem
+public class ZwFilterCheckDataItem
 {
     String showName;
     String id;

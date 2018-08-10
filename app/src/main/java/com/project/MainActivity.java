@@ -5,11 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
@@ -17,10 +14,10 @@ import com.jzxiang.pickerview.data.Type;
 import com.project.adapter.NomalAdapter;
 import com.project.manager.FilterManager;
 import com.project.manager.IListView;
-import com.project.model.FilterCheckData;
-import com.project.model.FilterCheckDataItem;
-import com.project.model.FilterData;
-import com.project.model.Params;
+import com.project.model.ZwFilterCheckData;
+import com.project.model.ZwFilterCheckDataItem;
+import com.project.model.ZwFilterData;
+import com.project.model.ZwParams;
 import com.project.view.ZwFilterRefreshView;
 
 import java.util.ArrayList;
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setListView()
     {
-        List<FilterCheckData> checkDatas = getFilterCheckData();
+        List<ZwFilterCheckData> checkDatas = getFilterCheckData();
 
         //设置侧拉栏数据
         view.getFilterManager()
@@ -51,25 +48,27 @@ public class MainActivity extends AppCompatActivity
                 .addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
                 .setOnFilterItemChangeListener(new IListView.OnFilterItemChangeListener() {
                     @Override
-                    public void onFilterItemChange(FilterData data) {
+                    public void onFilterItemChange(ZwFilterData data) {
                         //点击或改变筛选中的item数值后的回调
                         Toast.makeText(context,"点击了选项",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnFilterConfirmClickListener(new IListView.OnFilterConfirmClickListener() {
                     @Override
-                    public void onFilterConfirmClick(FilterData data) {
+                    public void onFilterConfirmClick(ZwFilterData data) {
                         //点击确认按钮的监听
+                        ZwParams params = view.getBarCurData();
                         Toast.makeText(context,"点击了确认",Toast.LENGTH_SHORT).show();
-                        List<FilterCheckData> list = data.getCheckDatas();
+                        List<ZwFilterCheckData> list = data.getCheckDatas();
+                        view.getFilterManager().hideDialog();
                     }
                 })
                 .setOnFilterResetClickListener(new IListView.OnFilterResetClickListener() {
                     @Override
-                    public void onFilterResetClick(FilterData data) {
+                    public void onFilterResetClick(ZwFilterData data) {
                         //点击重置按钮的监听
                         Toast.makeText(context,"点击了重置",Toast.LENGTH_SHORT).show();
-                        List<FilterCheckData> list = data.getCheckDatas();
+                        List<ZwFilterCheckData> list = data.getCheckDatas();
                     }
                 });
 
@@ -89,31 +88,22 @@ public class MainActivity extends AppCompatActivity
                 .addSeekBar1("距离",0,200,0)
                 .addSeekBar2("距离2",0,200,0);
 
-        final List<String> spinnerData = new ArrayList<>();
-        spinnerData.add("综合");spinnerData.add("时间正序");spinnerData.add("时间倒序");spinnerData.add("热门搜索");
 
         //设置顶部栏样式
         view.getViewBarManager()
                 //.setBarTxtSize(15)
                 //.setBarImgCom(getResources().getDrawable(R.mipmap.ic_tri_down),getResources().getDrawable(R.mipmap.ic_tri_up))
-                .setComSpinnerData(spinnerData)
+                .setComSpinnerData(setMarkData())
                 .setFilterTxt("筛选")
-                .setOnSortClickListener(new IListView.OnSortClickListener() {
+                .setOnBarItemSelectedListener(new IListView.onBarItemSelectedListener() {
                     @Override
-                    public void onSortClick(int status) {
-                        Toast.makeText(context,"点击了排序："+status,Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setOnComSpinnerSelectedListenner(new IListView.OnComSpinnerSelectedListener() {
-                    @Override
-                    public void onComSpinnerSelected(int index) {
-                        Params params = view.getBarCurData();
-                        Toast.makeText(context,"点击了："+spinnerData.get(index),Toast.LENGTH_SHORT).show();
-
+                    public void onBarItemSelected(ZwFilterCheckDataItem checkDataItem) {
+                        Toast.makeText(context,"按钮",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setComSpinnerSelectedIndex(0)
-                .setMarkData(setMarkData());
+                .setMarkData(setMarkData())
+                .setBarBtns(setMarkData());
 
         view.updateView();
 
@@ -166,12 +156,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     //设置筛选菜单中单选/多选的数据
-    public List<FilterCheckData> getFilterCheckData()
+    public List<ZwFilterCheckData> getFilterCheckData()
     {
-        FilterCheckData data = new FilterCheckData();
-        FilterCheckData data2 = new FilterCheckData();
-        List<FilterCheckDataItem> ls = new ArrayList<>();List<FilterCheckDataItem> ls2 = new ArrayList<>();
-        FilterCheckDataItem dataItem1 = new FilterCheckDataItem(),dataItem2 = new FilterCheckDataItem(),dataItem3 = new FilterCheckDataItem(),dataItem4 = new FilterCheckDataItem();
+        ZwFilterCheckData data = new ZwFilterCheckData();
+        ZwFilterCheckData data2 = new ZwFilterCheckData();
+        List<ZwFilterCheckDataItem> ls = new ArrayList<>();List<ZwFilterCheckDataItem> ls2 = new ArrayList<>();
+        ZwFilterCheckDataItem dataItem1 = new ZwFilterCheckDataItem(),dataItem2 = new ZwFilterCheckDataItem(),dataItem3 = new ZwFilterCheckDataItem(),dataItem4 = new ZwFilterCheckDataItem();
         dataItem1.setShowName("语文"); dataItem1.setChecked(false);
         dataItem2.setShowName("数学"); dataItem2.setChecked(false);
         dataItem3.setShowName("英语"); dataItem3.setChecked(false);
@@ -186,17 +176,17 @@ public class MainActivity extends AppCompatActivity
         data2.setSort(1);
         data2.setType(FilterManager.FILTER_TYPE_SIN_ELECTION);
 
-        List<FilterCheckData> list = new ArrayList<>();
+        List<ZwFilterCheckData> list = new ArrayList<>();
         list.add(data);
         list.add(data2);
         return list;
     }
 
-    public ArrayList<FilterCheckDataItem> setMarkData()
+    public ArrayList<ZwFilterCheckDataItem> setMarkData()
     {
-        final ArrayList<FilterCheckDataItem> markData = new ArrayList<>();
-        for( int i=0;i<10;i++ ){
-            FilterCheckDataItem item = new FilterCheckDataItem();
+        final ArrayList<ZwFilterCheckDataItem> markData = new ArrayList<>();
+        for( int i=0;i<20;i++ ){
+            ZwFilterCheckDataItem item = new ZwFilterCheckDataItem();
             item.setChecked(false);
             item.setShowName("标签标签"+i);
             markData.add(item);

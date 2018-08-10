@@ -1,20 +1,14 @@
 package com.project.manager;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Filter;
 import android.widget.LinearLayout;
 
-import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.project.R;
-import com.project.model.FilterCheckData;
-import com.project.model.FilterData;
+import com.project.model.ZwFilterCheckData;
+import com.project.model.ZwFilterData;
 import com.project.seekbar.RangeSeekBar;
 import com.project.view.FiltersDialog;
 
@@ -68,7 +62,7 @@ public class FilterManager implements View.OnClickListener {
         }
     }
 
-    public FilterManager addCheckData(FilterCheckData data)
+    public FilterManager addCheckData(ZwFilterCheckData data)
     {
         if( filtersDialog == null )
             filtersDialog = new FiltersDialog(context);
@@ -76,7 +70,7 @@ public class FilterManager implements View.OnClickListener {
         return this;
     }
 
-    public FilterManager addCheckDatas(List<FilterCheckData> datas)
+    public FilterManager addCheckDatas(List<ZwFilterCheckData> datas)
     {
         if( filtersDialog == null )
             filtersDialog = new FiltersDialog(context);
@@ -87,7 +81,7 @@ public class FilterManager implements View.OnClickListener {
         return this;
     }
 
-    public FilterData getFilterDatas()
+    public ZwFilterData getFilterDatas()
     {
         return filtersDialog.getAllData();
     }
@@ -99,7 +93,7 @@ public class FilterManager implements View.OnClickListener {
 
         filtersDialog.setOnConfirmClickListener(new FiltersDialog.OnConfirmClickListener() {
             @Override
-            public void onConfirmClick(FilterData data) {
+            public void onConfirmClick(ZwFilterData data) {
                 if( onFilterConfirmClickListener != null )
                 onFilterConfirmClickListener.onFilterConfirmClick(data);
             }
@@ -107,14 +101,14 @@ public class FilterManager implements View.OnClickListener {
 
         filtersDialog.setOnItemChangeListener(new FiltersDialog.OnItemChangeListener() {
             @Override
-            public void onItemChangeListener(FilterData data) {
+            public void onItemChangeListener(ZwFilterData data) {
                 if( onFilterItemChangeListener != null )
                 onFilterItemChangeListener.onFilterItemChange(data);
             }
         });
         filtersDialog.setOnResetClickListener(new FiltersDialog.OnResetClickListener() {
             @Override
-            public void onResetClick(FilterData data) {
+            public void onResetClick(ZwFilterData data) {
                 if( onFilterResetClickListener != null )
                 onFilterResetClickListener.onFilterResetClick(data);
             }
@@ -182,6 +176,12 @@ public class FilterManager implements View.OnClickListener {
     public RangeSeekBar getSeekbar2()
     {
         return filtersDialog.getSeekBar2();
+    }
+
+    public FilterManager hideDialog()
+    {
+        filtersDialog.dismiss();
+        return this;
     }
 
     //添加自定义布局

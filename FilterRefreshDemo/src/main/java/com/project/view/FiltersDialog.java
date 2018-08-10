@@ -25,9 +25,9 @@ import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.library.R;
 import com.project.commom.comm;
 import com.project.manager.FilterManager;
-import com.project.model.FilterCheckData;
-import com.project.model.FilterCheckDataItem;
-import com.project.model.FilterData;
+import com.project.model.ZwFilterCheckData;
+import com.project.model.ZwFilterCheckDataItem;
+import com.project.model.ZwFilterData;
 import com.project.seekbar.OnRangeChangedListener;
 import com.project.seekbar.RangeSeekBar;
 import com.project.utils.ListSortUtil;
@@ -46,8 +46,8 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     private Context context;
     private View view;
     private View trans_view,ll_content;
-    private FilterData mData;
-    private List<FilterCheckData> checkDatas;
+    private ZwFilterData mData;
+    private List<ZwFilterCheckData> checkDatas;
 
     private LayoutInflater inflater;
     private LinearLayout ll_filter_content;//包含checktext
@@ -118,8 +118,8 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         });
 
 
-        mData = new FilterData();
-        List<FilterCheckData> checks = new ArrayList<>();
+        mData = new ZwFilterData();
+        List<ZwFilterCheckData> checks = new ArrayList<>();
         mData.setCheckDatas(checks);
         checkDatas = mData.getCheckDatas();
 
@@ -398,7 +398,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     //确认监听事件
     public interface OnConfirmClickListener
     {
-        void onConfirmClick(FilterData data);
+        void onConfirmClick(ZwFilterData data);
     }
 
     public void setOnConfirmClickListener(OnConfirmClickListener onConfirmClickListener){
@@ -408,7 +408,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     //重置监听事件
     public interface OnResetClickListener
     {
-        void onResetClick(FilterData data);
+        void onResetClick(ZwFilterData data);
     }
 
     public void setOnResetClickListener(OnResetClickListener onResetClickListener){
@@ -417,7 +417,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
     //item改变事件（选中状态改变、时间变化）
     public interface OnItemChangeListener{
-        void onItemChangeListener(FilterData data);
+        void onItemChangeListener(ZwFilterData data);
     }
     public void setOnItemChangeListener(OnItemChangeListener onItemChangeListener){
         this.onItemChangeListener = onItemChangeListener;
@@ -437,7 +437,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
     ////////////////////////////////////////////////////////数据相关/////////////////////////////////////////
     //添加数据
-    public void addData(FilterCheckData data)
+    public void addData(ZwFilterCheckData data)
     {
         if( checkDatas == null )
         {
@@ -449,7 +449,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         renderData();
     }
 
-    public FilterData getAllData()
+    public ZwFilterData getAllData()
     {
         return mData;
     }
@@ -459,7 +459,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     {
         if( checkDatas == null || checkDatas.size() == 0)
             return;
-        ListSortUtil.sort(checkDatas,true, FilterCheckData.sortName);
+        ListSortUtil.sort(checkDatas,true, ZwFilterCheckData.sortName);
     }
 
     //渲染数据
@@ -470,9 +470,9 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         ll_filter_content.removeAllViews();
         for( int i=0;i<checkDatas.size();i++ )
         {
-            final FilterCheckData data = checkDatas.get(i);
+            final ZwFilterCheckData data = checkDatas.get(i);
             String title = data.getTitle();
-            final List<FilterCheckDataItem> checkDatas = data.getList();
+            final List<ZwFilterCheckDataItem> checkDatas = data.getList();
 
             View view = inflater.inflate(R.layout.item_filter,null);
             TextView tvTitle = view.findViewById(R.id.tv_title);
@@ -489,7 +489,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     CheckText checkText = view.findViewById(R.id.txt);
                     Boolean isCheck = checkText.isChecked();
-                    FilterCheckDataItem item = checkDatas.get(position);
+                    ZwFilterCheckDataItem item = checkDatas.get(position);
                     int type = data.getType();
                     //单选-则清楚所有选中
                     if( type == FilterManager.FILTER_TYPE_SIN_ELECTION )
@@ -513,7 +513,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     }
 
     //清除所有check item的选中
-    private void unCheckAllItems(AdapterView<?> parent,List<FilterCheckDataItem> checkDatas)
+    private void unCheckAllItems(AdapterView<?> parent,List<ZwFilterCheckDataItem> checkDatas)
     {
         if( checkDatas == null || checkDatas.size() == 0 )
             return;
@@ -552,10 +552,10 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     //适配器
     public class FilterSearchAdapter extends BaseAdapter
     {
-        private List<FilterCheckDataItem> ls;
+        private List<ZwFilterCheckDataItem> ls;
         private LayoutInflater inflater;
 
-        public FilterSearchAdapter(Context context, List<FilterCheckDataItem> ls) {
+        public FilterSearchAdapter(Context context, List<ZwFilterCheckDataItem> ls) {
             this.ls = ls;
             this.inflater = LayoutInflater.from(context);
         }
@@ -579,7 +579,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         public View getView(final int position, View convertView, ViewGroup parent)
         {
             Holder mHolder = null;
-            final FilterCheckDataItem obj = ls.get(position);
+            final ZwFilterCheckDataItem obj = ls.get(position);
             if( convertView == null )
             {
                 mHolder = new Holder();
