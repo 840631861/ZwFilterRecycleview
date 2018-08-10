@@ -134,7 +134,7 @@ public class ViewBarManager
     //下拉菜单全部设为未选中
     private void clearSpinnerCheck()
     {
-        customSpinner.setSelectedIndex(0);
+        customSpinner.setSelectedIndex(-1);
         customSpinner.changeTxtColor(false);
     }
 

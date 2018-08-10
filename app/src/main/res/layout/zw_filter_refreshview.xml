@@ -10,53 +10,61 @@
         android:id="@+id/ll_top_bar"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal"
+        android:background="@color/white"
+        android:orientation="vertical"
         android:gravity="center_vertical"
         >
-        <!-- 按钮 -->
-        <com.project.view.CustomSpinner
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/customSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-        </com.project.view.CustomSpinner>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recy_bar_btns"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
-        </android.support.v7.widget.RecyclerView>
-        <!-- 筛选 -->
-        <LinearLayout
-            android:id="@+id/ll_filter_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <TextView
-                android:id="@+id/tv_bar_filter"
-                android:text="筛选"
+            <!-- 按钮 -->
+            <com.project.view.CustomSpinner
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/gray_8"
-                android:textSize="15sp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/customSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:id="@+id/img_filter"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/ic_filter"
-                android:layout_width="13dp"
-                android:layout_height="13dp" />
+                android:layout_height="match_parent">
+
+            </com.project.view.CustomSpinner>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_bar_btns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </android.support.v7.widget.RecyclerView>
+            <!-- 筛选 -->
+            <LinearLayout
+                android:id="@+id/ll_filter_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/tv_bar_filter"
+                    android:text="筛选"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/gray_8"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/img_filter"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/ic_filter"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp" />
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gap_line"></View>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gap_line"></View>
 
     <!-- 标签 -->
     <android.support.v7.widget.RecyclerView

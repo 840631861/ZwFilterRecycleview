@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         //设置侧拉栏数据
         view.getFilterManager()
                 //.addCheckData(data)//添加单个侧拉栏中数据（选择按钮）
-                .addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
+                //.addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
                 .setOnFilterItemChangeListener(new IListView.OnFilterItemChangeListener() {
                     @Override
                     public void onFilterItemChange(ZwFilterData data) {
@@ -76,17 +76,11 @@ public class MainActivity extends AppCompatActivity
         //设置侧拉栏样式
         view.getFilterManager()
                 //.addTimeSection(getSupportFragmentManager(), Type.YEAR_MONTH)//添加时间段（不带样式使用默认）
-                .addTimeSection(getSupportFragmentManager(), Type.YEAR_MONTH,R.color.colorAccent)//添加时间段（带样式）
-                .addSearchTxt()//添加搜索框
-                .addCustomView(custom, new IListView.OnAddCustemViewCallback() //添加自定义布局
-                {
-                    @Override
-                    public void onAddCustemView(View parent, View custom) {
-                        //自定义布局回调
-                    }
-                })
-                .addSeekBar1("距离",0,200,0)
-                .addSeekBar2("距离2",0,200,0);
+                //.addTimeSection(getSupportFragmentManager(), Type.YEAR_MONTH,R.color.colorAccent)//添加时间段（带样式）
+                //.addSearchTxt()//添加搜索框
+                ;
+                //.addSeekBar1("距离",0,200,0)
+                //.addSeekBar2("距离2",0,200,0);
 
 
         //设置顶部栏样式

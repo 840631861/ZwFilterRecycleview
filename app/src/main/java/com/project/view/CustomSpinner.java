@@ -254,11 +254,15 @@ public class CustomSpinner extends LinearLayout {
         this.heiht = heiht;
     }
     public void setSelectedIndex(int index){
-        tv_name.setText(list.get(index).getShowName());
         postion = index;
 
-        if( onItemSelectedListener != null )
-            onItemSelectedListener.onItemSelected(index);
+        //此判断可防止在点击
+        if( postion >= 0 )
+        {
+            tv_name.setText(list.get(index).getShowName());
+            if( onItemSelectedListener != null )
+                onItemSelectedListener.onItemSelected(index);
+        }
     }
 
     public interface OnItemSelectedListenerSpinner{
