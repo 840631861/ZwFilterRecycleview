@@ -430,7 +430,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
     //item改变事件（选中状态改变）
     public interface OnItemChangeListener{
-        void onItemChangeListener(ZwFilterData data,ZwFilterCheckDataItem item);
+        void onItemChangeListener(ZwFilterData data,ZwFilterCheckDataItem item,String parentId);
     }
     public void setOnItemChangeListener(OnItemChangeListener onItemChangeListener){
         this.onItemChangeListener = onItemChangeListener;
@@ -550,7 +550,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
                     Boolean isChecked = checkText.isChecked();
                     item.setChecked(isChecked);
                     if( onItemChangeListener != null )
-                        onItemChangeListener.onItemChangeListener(mData,data.getList().get(position));
+                        onItemChangeListener.onItemChangeListener(mData,data.getList().get(position),data.getId());
                 }
             });
         }

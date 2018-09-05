@@ -26,7 +26,7 @@ public interface IListView
     }
     //筛选弹窗中check item状态改变或数值变动时监听
     interface OnFilterItemChangeListener{
-        void onFilterItemChange(ZwFilterData data, ZwFilterCheckDataItem item);
+        void onFilterItemChange(ZwFilterData data, ZwFilterCheckDataItem item,String parentId);
     }
     //筛选弹窗中seekbar改变监听
     interface OnFilterSeekbarChangeListener{
