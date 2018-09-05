@@ -41,11 +41,16 @@ public class MainActivity extends AppCompatActivity
     private void setListView()
     {
         List<ZwFilterCheckData> checkDatas = getFilterCheckData();
+        ZwFilterCheckData data = getFilterCheckData("name1","01",3);
+        ZwFilterCheckData data2 = getFilterCheckData("name2","02",2);
+        ZwFilterCheckData data3 = getFilterCheckData("name3","03",1);
+        ZwFilterCheckData data4 = getFilterCheckData("name4","01",3);
 
         //设置侧拉栏数据
         view.getFilterManager()
-                //.addCheckData(data)//添加单个侧拉栏中数据（选择按钮）
-                .addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
+                .addCheckData(data)//添加单个侧拉栏中数据（选择按钮）
+                .addCheckData(data2).addCheckData(data3).addCheckData(data4)
+                //.addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
                 .setOnFilterItemChangeListener(new IListView.OnFilterItemChangeListener() {
                     @Override
                     public void onFilterItemChange(ZwFilterData data,ZwFilterCheckDataItem item,String parentId) {
@@ -207,6 +212,22 @@ public class MainActivity extends AppCompatActivity
         list.add(data);
         list.add(data2);
         return list;
+    }
+
+    public ZwFilterCheckData getFilterCheckData(String name,String id,int sort)
+    {
+        ZwFilterCheckData data = new ZwFilterCheckData();
+        List<ZwFilterCheckDataItem> ls = new ArrayList<>();
+        ZwFilterCheckDataItem dataItem1 = new ZwFilterCheckDataItem(),dataItem2 = new ZwFilterCheckDataItem();
+        dataItem1.setShowName("语文"); dataItem1.setChecked(false);
+        dataItem2.setShowName("数学"); dataItem2.setChecked(false);
+        ls.add(dataItem1);ls.add(dataItem2);
+        data.setList(ls);
+        data.setTitle(name);
+        data.setId(id);
+        data.setSort(sort);
+
+        return data;
     }
 
     public ArrayList<ZwFilterCheckDataItem> setMarkData()

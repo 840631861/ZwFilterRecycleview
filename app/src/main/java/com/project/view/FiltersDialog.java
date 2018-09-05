@@ -488,6 +488,14 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
             checkDatas = new ArrayList<>();
             mData.setCheckDatas(checkDatas);
         }
+        //如果id相同则替换
+        for (int i=0;i<checkDatas.size();i++) {
+            ZwFilterCheckData checkData = checkDatas.get(i);
+            if(checkData.getId().equals(data.getId()))
+            {
+                checkDatas.remove(checkData);
+            }
+        }
         checkDatas.add(data);
         sortData();
         renderData();
