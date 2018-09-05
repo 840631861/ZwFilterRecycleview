@@ -79,7 +79,13 @@ view.getFilterManager()
             Toast.makeText(context,"点击了重置",Toast.LENGTH_SHORT).show();
             List<FilterCheckData> list = data.getCheckDatas();
         }
-    });
+    })
+    .setOnPopShowListener(new IListView.OnPopShowListener() {
+                @Override
+                public void onPopShow() {
+                    
+                }
+            });
 ```
 
 ***自定义修改侧拉栏中样式，添加时间段条件、搜索框等，还可以添加自定义布局***
@@ -96,7 +102,10 @@ view.getFilterManager()
         public void onAddCustemView(View parent, View custom) {
             //自定义布局回调
         }
-    });
+    })
+    //设置seekbar
+    .addSeekBar1("距离",0,200,0)
+    .addSeekBar2("距离2",0,200,0);
 ```
 
 ***更改顶部栏中排序、筛选等按钮的样式，及设置下拉菜单的数据***
@@ -108,21 +117,18 @@ view.getViewBarManager()
     //.setBarImgCom(getResources().getDrawable(R.mipmap.ic_tri_down),getResources().getDrawable(R.mipmap.ic_tri_up))
     .setComSpinnerData(spinnerData)
     .setFilterTxt("筛选")
-    .setOnSortClickListener(new IListView.OnSortClickListener() {
-        @Override
-        public void onSortClick(int status) {
-            Toast.makeText(context,"点击了排序："+status,Toast.LENGTH_SHORT).show();
-        }
-    })
-    .setOnComSpinnerSelectedListenner(new IListView.OnComSpinnerSelectedListener() {
-        @Override
-        public void onComSpinnerSelected(int index) {
-            Params params = view.getBarCurData();
-            Toast.makeText(context,"点击了："+spinnerData.get(index),Toast.LENGTH_SHORT).show();
-
-        }
-    })
-    .setComSpinnerSelectedIndex(0);
+    //监听下拉菜单或顶部按钮点击事件
+    .setOnBarItemSelectedListener(new IListView.onBarItemSelectedListener() {
+                    @Override
+                    public void onBarItemSelected(ZwFilterCheckDataItem checkDataItem) {
+                        Toast.makeText(context,"按钮",Toast.LENGTH_SHORT).show();
+                    }
+                })
+    .setComSpinnerSelectedIndex(0)
+    //增加标签
+    .setMarkData(setMarkData())
+    //增加顶部按钮
+     .setBarBtns(setBtnData());
 ```
 注意：修改完样式后需要调用
 ```java
@@ -184,9 +190,6 @@ setBarTxtColorActive
 //设置顶部栏综合按钮图标(下拉菜单图标)
 setBarImgCom
 
-//设置排序按钮图标
-setBarImgSot
-
 //设置顶部栏筛选图标按钮
 setBarImgFilter
 
@@ -204,7 +207,7 @@ setSortStatus
 hideBar(Boolean isHide)
 
 //隐藏、显示顶部栏中的综合按钮、排序按钮、筛选按钮
-hideBar(Boolean isHideComBtn, Boolean isHideSortBtn, Boolean isHideFilterBtn)
+hideBar(Boolean isHideComBtn, Boolean isHideFilterBtn)
  
 ```
 
@@ -224,10 +227,6 @@ hideBar(Boolean isHideComBtn, Boolean isHideSortBtn, Boolean isHideFilterBtn)
     <attr name="barImgCom" format="reference"></attr>
     <!-- 下拉菜单下拉时的图片 -->
     <attr name="barImgComActive" format="reference"></attr>
-    <!-- 排序按钮图标 -->
-    <attr name="barImgSortDefault" format="reference"></attr>
-    <attr name="barImgSortAsc" format="reference"></attr>
-    <attr name="barImgSortDesc" format="reference"></attr>
     <!-- 筛选按钮图标 -->
     <attr name="barImgFilter" format="reference"></attr>
     <!-- 排序按钮文字 -->
