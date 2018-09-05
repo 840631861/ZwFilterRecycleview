@@ -26,7 +26,7 @@ public interface IListView
     }
     //筛选弹窗中item状态改变或数值变动时监听
     interface OnFilterItemChangeListener{
-        void onFilterItemChange(ZwFilterData data);
+        void onFilterItemChange(ZwFilterData data, String... value);
     }
     //添加自定义布局回调
     interface OnAddCustemViewCallback{

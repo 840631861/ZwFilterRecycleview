@@ -254,7 +254,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         public void afterTextChanged(Editable s) {
             String keywords = et_search.getText().toString().trim();
             mData.setSearchTxt(keywords);
-            onItemChangeListener.onItemChangeListener(mData);
+            onItemChangeListener.onItemChangeListener(mData,keywords);
         }
     };
 
@@ -297,7 +297,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
             }
             CurTimePicker.setText(text);
-            onItemChangeListener.onItemChangeListener(mData);
+            onItemChangeListener.onItemChangeListener(mData,millseconds+"");
         }
     };
 
@@ -342,11 +342,15 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         }
         seekBar1.setRange(min,max);
         seekBar1.setIndicatorTextDecimalFormat("0");
+
         seekBar1.setOnRangeChangedListener(new OnRangeChangedListener() {
+            float mLeftValue = 0, mRightValue = 0;
             @Override
             public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
                 mData.setSeekbarNum1Start(leftValue);
                 mData.setSeekbarNum1End(rightValue);
+                mLeftValue = leftValue;
+                mRightValue = rightValue;
             }
 
             @Override
@@ -355,7 +359,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
-                onItemChangeListener.onItemChangeListener(mData);
+                onItemChangeListener.onItemChangeListener(mData,mLeftValue+"",mRightValue+"");
             }
         });
         return this;
@@ -371,10 +375,13 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         seekBar2.setRange(min,max);
         seekBar2.setIndicatorTextDecimalFormat("0");
         seekBar2.setOnRangeChangedListener(new OnRangeChangedListener() {
+            float mLeftValue = 0, mRightValue = 0;
             @Override
             public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
                 mData.setSeekbarNum2Start(leftValue);
                 mData.setSeekbarNum2End(rightValue);
+                mLeftValue = leftValue;
+                mRightValue = rightValue;
             }
 
             @Override
@@ -383,7 +390,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
-                onItemChangeListener.onItemChangeListener(mData);
+                onItemChangeListener.onItemChangeListener(mData,mLeftValue+"",mRightValue+"");
             }
         });
         return this;
@@ -419,7 +426,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
     //item改变事件（选中状态改变、时间变化）
     public interface OnItemChangeListener{
-        void onItemChangeListener(ZwFilterData data);
+        void onItemChangeListener(ZwFilterData data, String... value);
     }
     public void setOnItemChangeListener(OnItemChangeListener onItemChangeListener){
         this.onItemChangeListener = onItemChangeListener;
@@ -516,7 +523,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
                     Boolean isChecked = checkText.isChecked();
                     item.setChecked(isChecked);
                     if( onItemChangeListener != null )
-                        onItemChangeListener.onItemChangeListener(mData);
+                        onItemChangeListener.onItemChangeListener(mData,data.getList().get(position).getId());
                 }
             });
         }
