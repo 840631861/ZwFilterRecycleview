@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
                 .addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
                 .setOnFilterItemChangeListener(new IListView.OnFilterItemChangeListener() {
                     @Override
-                    public void onFilterItemChange(ZwFilterData data) {
+                    public void onFilterItemChange(ZwFilterData data,String... value) {
                         //点击或改变筛选中的item数值后的回调
                         Toast.makeText(context,"点击了选项",Toast.LENGTH_SHORT).show();
                     }
@@ -101,15 +101,24 @@ public class MainActivity extends AppCompatActivity
                 //.setBarImgCom(getResources().getDrawable(R.mipmap.ic_tri_down),getResources().getDrawable(R.mipmap.ic_tri_up))
                 .setComSpinnerData(setMarkData())
                 .setFilterTxt("筛选")
+                //监听下拉菜单或顶部按钮点击事件
                 .setOnBarItemSelectedListener(new IListView.onBarItemSelectedListener() {
                     @Override
                     public void onBarItemSelected(ZwFilterCheckDataItem checkDataItem) {
                         Toast.makeText(context,"按钮",Toast.LENGTH_SHORT).show();
                     }
                 })
+                .setOnMarkItemClickListener(new IListView.OnMarkItemClickListener() {
+                    @Override
+                    public void onMarkItemClick(int position) {
+
+                    }
+                })
                 .setComSpinnerSelectedIndex(0)
+                //增加标签
                 .setMarkData(setMarkData())
-                .setBarBtns(setMarkData());
+                //增加顶部按钮
+                .setBarBtns(setBtnData());
 
         view.updateView();
 
@@ -118,6 +127,12 @@ public class MainActivity extends AppCompatActivity
         NomalAdapter adapter = new NomalAdapter(context,list);
         view.getRecyclerView().setLayoutManager(new LinearLayoutManager(context));
         view.getRecyclerView().setAdapter(adapter);
+        adapter.setOnItemClickListener(new NomalAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(context,position+"..",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //设置刷新加载监听
         view.getRefreshLayout().setRefreshListener(new BaseRefreshListener() {
@@ -171,7 +186,7 @@ public class MainActivity extends AppCompatActivity
         dataItem1.setShowName("语文"); dataItem1.setChecked(false);
         dataItem2.setShowName("数学"); dataItem2.setChecked(false);
         dataItem3.setShowName("英语"); dataItem3.setChecked(false);
-        dataItem4.setShowName("历史"); dataItem4.setChecked(false);
+        dataItem4.setShowName("历史"); dataItem4.setId("004");dataItem4.setChecked(false);
         ls.add(dataItem1);ls.add(dataItem2);
         ls2.add(dataItem3);ls2.add(dataItem4);
         data.setList(ls);
@@ -197,6 +212,20 @@ public class MainActivity extends AppCompatActivity
             item.setShowName("标签标签"+i);
             markData.add(item);
         }
+        return markData;
+    }
+
+    public ArrayList<ZwFilterCheckDataItem> setBtnData()
+    {
+        final ArrayList<ZwFilterCheckDataItem> markData = new ArrayList<>();
+        ZwFilterCheckDataItem item1 = new ZwFilterCheckDataItem();
+        ZwFilterCheckDataItem item2 = new ZwFilterCheckDataItem();
+        item1.setChecked(false);
+        item1.setShowName("热度");
+        item2.setChecked(false);
+        item2.setShowName("好评");
+
+        markData.add(item1); markData.add(item2);
         return markData;
     }
 

@@ -18,6 +18,8 @@ import java.util.Map;
 public class NomalAdapter extends BaseRecyclerAdapter
 {
     private Context context;
+    private OnItemClickListener onItemClickListener;
+
     public NomalAdapter(Context context,List<Map<String,String>> data) {
         this.context = context;
         setData(data);
@@ -30,9 +32,25 @@ public class NomalAdapter extends BaseRecyclerAdapter
     }
 
     @Override
-    public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(BaseRecyclerViewHolder holder, final int position) {
         TextView tv = holder.getView(R.id.tv_name);
         Map<String,String> item = (Map<String, String>) _data.get(position);
         tv.setText(item.get("id"));
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onItemClick(position);
+            }
+        });
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener)
+    {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }

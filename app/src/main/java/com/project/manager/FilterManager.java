@@ -102,9 +102,9 @@ public class FilterManager implements View.OnClickListener {
 
         filtersDialog.setOnItemChangeListener(new FiltersDialog.OnItemChangeListener() {
             @Override
-            public void onItemChangeListener(ZwFilterData data) {
+            public void onItemChangeListener(ZwFilterData data,String... value) {
                 if( onFilterItemChangeListener != null )
-                onFilterItemChangeListener.onFilterItemChange(data);
+                onFilterItemChangeListener.onFilterItemChange(data,value);
             }
         });
         filtersDialog.setOnResetClickListener(new FiltersDialog.OnResetClickListener() {
