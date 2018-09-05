@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import com.jzxiang.pickerview.data.Type;
 import com.project.R;
 import com.project.model.ZwFilterCheckData;
+import com.project.model.ZwFilterCheckDataItem;
 import com.project.model.ZwFilterData;
 import com.project.seekbar.RangeSeekBar;
 import com.project.view.FiltersDialog;
@@ -28,6 +29,9 @@ public class FilterManager implements View.OnClickListener {
     private FiltersDialog filtersDialog;//侧拉弹窗
     private IListView.OnFilterConfirmClickListener onFilterConfirmClickListener;//确认按钮点击事件
     private IListView.OnFilterItemChangeListener onFilterItemChangeListener;//item状态改变事件
+    private IListView.OnFilterSeekbarChangeListener onFilterSeekbarChangeListener;//筛选弹窗中seekbar改变监听
+    private IListView.OnFilterTimeChangeListener onFilterTimeChangeListener;//筛选弹窗中时间改变监听
+    private IListView.OnFilterSearchChangeListener onFilterSearchChangeListener;//筛选弹窗中搜索框监听
     private IListView.OnFilterResetClickListener onFilterResetClickListener;//重置监听
     private IListView.OnAddCustemViewCallback onAddCustemViewCallback;//添加自定义布局回调
     private IListView.OnPopShowListener onPopShowListener;//pop弹出监听
@@ -102,9 +106,30 @@ public class FilterManager implements View.OnClickListener {
 
         filtersDialog.setOnItemChangeListener(new FiltersDialog.OnItemChangeListener() {
             @Override
-            public void onItemChangeListener(ZwFilterData data,String... value) {
+            public void onItemChangeListener(ZwFilterData data,ZwFilterCheckDataItem item) {
                 if( onFilterItemChangeListener != null )
-                onFilterItemChangeListener.onFilterItemChange(data,value);
+                onFilterItemChangeListener.onFilterItemChange(data,item);
+            }
+        });
+        filtersDialog.setOnSeekbarChangeListener(new FiltersDialog.OnSeekbarChangeListener() {
+            @Override
+            public void onSeekbarChangeListener(ZwFilterData data, float left, float right) {
+                if( onFilterSeekbarChangeListener != null )
+                    onFilterSeekbarChangeListener.onFilterSeekbarChange(data,left,right);
+            }
+        });
+        filtersDialog.setOnTimeChangeListener(new FiltersDialog.OnTimeChangeListener() {
+            @Override
+            public void onTimeChangeListener(ZwFilterData data, long time) {
+                if( onFilterTimeChangeListener != null )
+                    onFilterTimeChangeListener.onFilterTimeChange(data,time);
+            }
+        });
+        filtersDialog.setOnSearchChangeListener(new FiltersDialog.OnSearchChangeListener() {
+            @Override
+            public void onSearchChangeListener(ZwFilterData data, String keywords) {
+                if( onFilterSearchChangeListener != null )
+                    onFilterSearchChangeListener.onFilterSearchChange(data,keywords);
             }
         });
         filtersDialog.setOnResetClickListener(new FiltersDialog.OnResetClickListener() {
@@ -137,6 +162,24 @@ public class FilterManager implements View.OnClickListener {
     public FilterManager setOnFilterItemChangeListener(IListView.OnFilterItemChangeListener onFilterItemChangeListener)
     {
         this.onFilterItemChangeListener = onFilterItemChangeListener;
+        return this;
+    }
+    //seekbar状态改变事件
+    public FilterManager setOnFilterSeekbarChangeListener(IListView.OnFilterSeekbarChangeListener onFilterSeekbarChangeListener)
+    {
+        this.onFilterSeekbarChangeListener = onFilterSeekbarChangeListener;
+        return this;
+    }
+    //time状态改变事件
+    public FilterManager setOnFilterTimeChangeListener(IListView.OnFilterTimeChangeListener onFilterTimeChangeListener)
+    {
+        this.onFilterTimeChangeListener = onFilterTimeChangeListener;
+        return this;
+    }
+    //搜索框状态改变事件
+    public FilterManager setOnFilterSearchChangeListener(IListView.OnFilterSearchChangeListener onFilterSearchChangeListener)
+    {
+        this.onFilterSearchChangeListener = onFilterSearchChangeListener;
         return this;
     }
     //重置按钮事件

@@ -48,9 +48,15 @@ public class MainActivity extends AppCompatActivity
                 .addCheckDatas(checkDatas)//添加多个侧拉栏中数据(选择按钮)
                 .setOnFilterItemChangeListener(new IListView.OnFilterItemChangeListener() {
                     @Override
-                    public void onFilterItemChange(ZwFilterData data,String... value) {
+                    public void onFilterItemChange(ZwFilterData data,ZwFilterCheckDataItem item) {
                         //点击或改变筛选中的item数值后的回调
                         Toast.makeText(context,"点击了选项",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setOnFilterTimeChangeListener(new IListView.OnFilterTimeChangeListener() {
+                    @Override
+                    public void onFilterTimeChange(ZwFilterData data, long time) {
+                        Toast.makeText(context,"点击了时间",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setOnFilterConfirmClickListener(new IListView.OnFilterConfirmClickListener() {

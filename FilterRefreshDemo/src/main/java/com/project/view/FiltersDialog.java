@@ -54,9 +54,11 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
     private TextView tv_confirm,tv_reset;
     private OnConfirmClickListener onConfirmClickListener;//确认按钮点击事件
     private OnResetClickListener onResetClickListener;//重置按钮事件监听
-    private OnItemChangeListener onItemChangeListener;//item改变事件监听
+    private OnItemChangeListener onItemChangeListener;//check item改变事件监听
     private OnPopShowListener onPopShowListener;//item改变事件监听
-
+    private OnSeekbarChangeListener onSeekbarChangeListener;//seekbar改变事件监听
+    private OnTimeChangeListener onTimeChangeListener;//时间改变事件监听
+    private OnSearchChangeListener onSearchChangeListener;//搜索框改变事件监听
 
     //时间段
     private LinearLayout ll_time_content;
@@ -254,7 +256,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         public void afterTextChanged(Editable s) {
             String keywords = et_search.getText().toString().trim();
             mData.setSearchTxt(keywords);
-            onItemChangeListener.onItemChangeListener(mData,keywords);
+            onSearchChangeListener.onSearchChangeListener(mData,keywords);
         }
     };
 
@@ -297,7 +299,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
             }
             CurTimePicker.setText(text);
-            onItemChangeListener.onItemChangeListener(mData,millseconds+"");
+            onTimeChangeListener.onTimeChangeListener(mData,millseconds);
         }
     };
 
@@ -359,7 +361,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
-                onItemChangeListener.onItemChangeListener(mData,mLeftValue+"",mRightValue+"");
+                onSeekbarChangeListener.onSeekbarChangeListener(mData,mLeftValue,mRightValue);
             }
         });
         return this;
@@ -390,7 +392,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
-                onItemChangeListener.onItemChangeListener(mData,mLeftValue+"",mRightValue+"");
+                onSeekbarChangeListener.onSeekbarChangeListener(mData,mLeftValue,mRightValue);
             }
         });
         return this;
@@ -424,12 +426,35 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
         this.onResetClickListener = onResetClickListener;
     }
 
-    //item改变事件（选中状态改变、时间变化）
+    //item改变事件（选中状态改变）
     public interface OnItemChangeListener{
-        void onItemChangeListener(ZwFilterData data, String... value);
+        void onItemChangeListener(ZwFilterData data, ZwFilterCheckDataItem item);
     }
     public void setOnItemChangeListener(OnItemChangeListener onItemChangeListener){
         this.onItemChangeListener = onItemChangeListener;
+    }
+
+    //seekbar改变事件
+    public interface OnSeekbarChangeListener{
+        void onSeekbarChangeListener(ZwFilterData data, float left, float right);
+    }
+    public void setOnSeekbarChangeListener(OnSeekbarChangeListener onSeekbarChangeListener){
+        this.onSeekbarChangeListener = onSeekbarChangeListener;
+    }
+
+    //time时间变化）
+    public interface OnTimeChangeListener{
+        void onTimeChangeListener(ZwFilterData data, long time);
+    }
+    public void setOnTimeChangeListener(OnTimeChangeListener onTimeChangeListener){
+        this.onTimeChangeListener = onTimeChangeListener;
+    }
+    //输入框改变事件
+    public interface OnSearchChangeListener{
+        void onSearchChangeListener(ZwFilterData data, String keywords);
+    }
+    public void setOnSearchChangeListener(OnSearchChangeListener onSearchChangeListener){
+        this.onSearchChangeListener = onSearchChangeListener;
     }
 
     //显示pop监听
@@ -523,7 +548,7 @@ public class FiltersDialog extends PopupWindow implements View.OnClickListener {
                     Boolean isChecked = checkText.isChecked();
                     item.setChecked(isChecked);
                     if( onItemChangeListener != null )
-                        onItemChangeListener.onItemChangeListener(mData,data.getList().get(position).getId());
+                        onItemChangeListener.onItemChangeListener(mData,data.getList().get(position));
                 }
             });
         }
