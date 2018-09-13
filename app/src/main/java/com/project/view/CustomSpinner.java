@@ -19,10 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.R;
 import com.project.model.ZwFilterCheckDataItem;
+import com.project.utils.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,7 +191,13 @@ public class CustomSpinner extends LinearLayout {
                             ib.setImageDrawable(barImgComActive);
                         else
                             ib.setImageResource(R.mipmap.ic_tri_up);
-                        pop.showAsDropDown(view,0, 0);
+
+                        int []location=new int[2];
+                        view.getLocationOnScreen(location);
+                        int leftMargin = DensityUtil.dip2px(context,10);
+                        int left = location[0]-leftMargin;
+                        pop.setWidth(screenWidth- left);
+                        pop.showAsDropDown(view,left, 0);
                         isPopShow = false;
                     }else{
                         if(isPopShow){
@@ -198,7 +206,13 @@ public class CustomSpinner extends LinearLayout {
                                 ib.setImageDrawable(barImgComActive);
                             else
                                 ib.setImageResource(R.mipmap.ic_tri_up);
-                            pop.showAsDropDown(view, 0, 0);
+
+                            int []location=new int[2];
+                            view.getLocationOnScreen(location);
+                            int leftMargin = DensityUtil.dip2px(context,10);
+                            int left = location[0]-leftMargin;
+                            pop.setWidth(screenWidth- left);
+                            pop.showAsDropDown(view, left, 0);
                             isPopShow = false;
                         }else{
                             //向下的箭头
