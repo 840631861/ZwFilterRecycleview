@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity
 
         //设置顶部栏样式
         view.getViewBarManager()
+                .hideBar(true,true)
                 //.setBarTxtSize(15)
                 //.setBarImgCom(getResources().getDrawable(R.mipmap.ic_tri_down),getResources().getDrawable(R.mipmap.ic_tri_up))
                 .setComSpinnerData(setMarkData())
