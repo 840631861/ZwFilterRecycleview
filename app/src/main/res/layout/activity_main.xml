@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.project.MainActivity">
+    tools:context="com.project.com.zw.project.MainActivity">
     <TextView
         android:text="wewe"
         android:layout_width="30dp"
         android:layout_height="wrap_content" />
-    <com.project.view.ZwFilterRefreshView
+    <com.zw.filterrv.view.ZwFilterRefreshView
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.project.view.ZwFilterRefreshView>
+    </com.zw.filterrv.view.ZwFilterRefreshView>
 </LinearLayout>

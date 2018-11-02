@@ -17,12 +17,12 @@
             android:textColor="@color/black"
             android:textSize="13sp" />
 
-        <com.project.view.MyGridView
+        <com.zw.filterrv.view.MyGridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:horizontalSpacing="5dp"
             android:numColumns="3"
-            android:verticalSpacing="5dp"></com.project.view.MyGridView>
+            android:verticalSpacing="5dp"></com.zw.filterrv.view.MyGridView>
     </LinearLayout>
 </LinearLayout>
