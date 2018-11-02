@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <CheckText
+    <com.zw.filterrv.view.CheckText
         android:id="@+id/txt"
         android:gravity="center"
         android:background="@drawable/bg_filter_uncheck"

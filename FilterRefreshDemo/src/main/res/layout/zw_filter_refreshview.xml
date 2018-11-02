@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <!-- 按钮 -->
-            <CustomSpinner
+            <com.zw.filterrv.view.CustomSpinner
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/customSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
-            </CustomSpinner>
+            </com.zw.filterrv.view.CustomSpinner>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recy_bar_btns"
@@ -89,10 +89,10 @@
             android:layout_height="match_parent">
 
             <!-- 内容控件 有且只能有一个 -->
-            <MaxRecyclerView
+            <com.zw.filterrv.view.MaxRecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></MaxRecyclerView>
+                android:layout_height="match_parent"></com.zw.filterrv.view.MaxRecyclerView>
 
         </com.jwenfeng.library.pulltorefresh.PullToRefreshLayout>
     </LinearLayout>
