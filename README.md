@@ -42,12 +42,12 @@ Maven
 
 更过自定义属性[参见](#自定义属性说明)<BR />
 ```xml
-<com.project.view.ZwFilterRefreshView
+<ZwFilterRefreshView
     android:id="@+id/view"                                  
     app:barTxtSize="15dp"                                
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-</com.project.view.ZwFilterRefreshView>
+</ZwFilterRefreshView>
 ```
 
 **Step3：在Activity或Fragment中配置数据源和样式**

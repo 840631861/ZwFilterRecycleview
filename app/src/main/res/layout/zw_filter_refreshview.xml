@@ -89,10 +89,10 @@
             android:layout_height="match_parent">
 
             <!-- 内容控件 有且只能有一个 -->
-            <com.zw.filterrv.view.MaxRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></com.zw.filterrv.view.MaxRecyclerView>
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
         </com.jwenfeng.library.pulltorefresh.PullToRefreshLayout>
     </LinearLayout>

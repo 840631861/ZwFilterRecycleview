@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public class ZwFilterRefreshView extends LinearLayout
     private FilterManager filterManager;
     private View view;
     private PullToRefreshLayout refreshLayout;
-    private MaxRecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     public ZwFilterRefreshView(Context context) {
         super(context);
@@ -140,7 +141,7 @@ public class ZwFilterRefreshView extends LinearLayout
         return refreshLayout;
     }
 
-    public MaxRecyclerView getRecyclerView(){
+    public RecyclerView getRecyclerView(){
         return recyclerView;
     }
 

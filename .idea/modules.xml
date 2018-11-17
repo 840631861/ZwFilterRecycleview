@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/FilterRefreshDemo/FilterRefreshDemo.iml" filepath="$PROJECT_DIR$/FilterRefreshDemo/FilterRefreshDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/ZwFilterRecycleview.iml" filepath="$PROJECT_DIR$/ZwFilterRecycleview.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://E:\Android\workbench\ZwFilterRefresh\FilterRefreshDemo\library.iml" filepath="E:\Android\workbench\ZwFilterRefresh\FilterRefreshDemo\library.iml" />
     </modules>
   </component>
 </project>
